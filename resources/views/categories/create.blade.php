@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'CreateUser', 'titlePage' => __('Create User'), 'namePage' => 'User Create', 'activePage' => 'CreateUser', 'activeNav' => ''])
+@extends('layouts.app', ['activePage' => 'CreateCategoty', 'titlePage' => __('Create User'), 'namePage' => 'User Create', 'activePage' => 'CreateUser', 'activeNav' => ''])
 
 @section('content')
     <div class="panel-header panel-header-sm">

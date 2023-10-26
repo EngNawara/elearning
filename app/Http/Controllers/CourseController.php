@@ -2,91 +2,119 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CourseRequest;
+use App\Models\Category;
+use App\Models\Course;
 use Illuminate\Http\Request;
-use App\Models\{Category, Course, User};
-use App\Http\Requests\StoreCourseRequest;
-use App\Http\Requests\UpdateCourseRequest;
-use Illuminate\Support\Facades\Gate;
-use Jambasangsang\Flash\Facades\LaravelFlash;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
 
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        Gate::authorize('view_courses');
-        abort_if(auth()->user()->hasRole('User'), 403);
-
-        return view(
-            'jambasangsang.backend.courses.index',
-            [
-                'courses' => auth()->user()->hasRole('Teacher') ? auth()->user()->userCourses()->with(['teacher:id,name', 'category:id,name'])->get() : Course::with(['teacher:id,name', 'category:id,name'])->get(),
-                'categories' => Category::get(['id', 'name'])
-            ]
-        );
+        //
+        $courses = Course::all();
+        // dd($courses);
+        return view('courses.index', compact('courses'));
     }
 
-
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        Gate::authorize('add_courses');
-        return view(
-            'jambasangsang.backend.courses.create',
-            [
-                'teachers' => User::Teacher()->get(['id', 'name']),
-                'categories' => Category::with('parents')->whereNull('parent_id')->where('status', 'enabled')->get(['id', 'name'])
-            ]
-        );
+        //
+        $categories = Category::all();
+        return view('courses.create',compact('categories'));
     }
 
-
-    public function store(StoreCourseRequest $request)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(CourseRequest $request)
     {
-        Gate::authorize('add_courses');
+        //
 
-        $course = Course::create($request->validated());
-        $course->image  = uploadOrUpdateFile($request, $course->image, \constPath::CourseImage);
-        $course->save();
-        LaravelFlash::withSuccess('Course Created Successfully');
-        return redirect()->route('courses.index');
+       DB::beginTransaction();
+        try {
+            //create new course
+            $course = new Course;
+            $course->fill($request->all());
+            $course->save();
+            DB::commit();
+
+            // redirect to success pagee
+            return  redirect()->route('courses.index')->with('success', 'Course Created Successfully');
+        } catch (\Exception $e) {
+            // rolle back the transaction after error occurred
+            DB::rollBack();
+
+            // handle the error
+            return back()->with('error', 'An error occurred while creating the course');
+        }
     }
 
-
-    public function show($slug)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Course $course)
     {
-        Gate::authorize('view_courses');
-        return view(
-            'jambasangsang.backend.courses.show',
-            ['course' => Course::with('teacher:id,name,email', 'category:id,name', 'lessons')->whereSlug($slug)->first()]
-        );
+        //
+        dd($course);
+        // return view('Lesson.index',compact('course'))
     }
 
-
-    public function edit(Course $course)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
-        Gate::authorize('edit_courses');
-
-        return view('jambasangsang.backend.courses.edit', [
-            'course' => $course, 'teachers' => User::Teacher()->get(['id', 'name']),
-            'categories' => Category::with('parents')->whereNull('parent_id')->where('status', 'enabled')->get(['id', 'name'])
-        ]);
+        //
+        $course = Course::find($id);
+        $categories = Category::all();
+        // dd($categories);
+        return view('courses.edit', compact('course', 'categories'));
     }
 
-
-    public function update(UpdateCourseRequest $request, Course $course)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(CourseRequest $request,  $id)
     {
-        Gate::authorize('edit_courses');
+        //start dataBase transaction
+        DB::beginTransaction();
+        try {
+            //find the course by its ID...
+            $course = Course::findOrFail($id);
+            if (!$course) {
+                DB::rollBack();
+                return redirect('/courses')->with('error', 'Course not found');
+            }
+            $course->fill($request->all());
+            $course->save();
+            DB::commit();
 
-        $course->update($request->validated());
-        $course->image  = uploadOrUpdateFile($request, $course->image, \constPath::CourseImage);
-        $course->save();
-        LaravelFlash::withSuccess('Course Updated Successfully');
-        return redirect()->route('courses.index');
+            //redirect to a success page or return a response
+            return redirect('/courses')->with('success', 'Course updated successfully');
+        } catch (\Exception $e) {
+            //an error
+            DB::rollBack();
+            return back()->with('error', 'an error occurred while updating the course');
+        }
     }
 
-
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Course $course)
     {
-        Gate::authorize('delete_courses');
+        //
+        $course->delete();
+        return redirect()->route('courses.index')->with('success', "Course deleted Successfully");
     }
 }

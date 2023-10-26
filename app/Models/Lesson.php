@@ -8,7 +8,7 @@ use VanOns\Laraberg\Traits\RendersContent;
 
 class Lesson extends Model
 {
-    use RendersContent;
+    // use RendersContent;
 
     protected $fillable = ['title', 'content', 'course_id', 'status', 'image'];
 

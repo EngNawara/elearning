@@ -57,7 +57,7 @@
                     <img id="preview" src="#" alt="your image" class="mt-3" style="display:none;" />
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </div>
             {!! Form::close() !!}

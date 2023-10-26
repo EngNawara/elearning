@@ -47,6 +47,18 @@
                                                 data-original-title="" title="">
                                                 <i class="now-ui-icons ui-2_settings-90"></i>
                                             </a>
+                                            <form action="{{ route('category.destroy', $category->id) }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-icon btn-sm"
+                                                    onclick="return confirm('Are you sure you want to delete this category?')">
+                                                    {{-- <i class="now-ui-icons ui-1_simple-remove"></i> --}}
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+
+
                                         </td>
                                     </tr>
                                 @endforeach
