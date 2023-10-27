@@ -30,7 +30,7 @@ return new class extends Migration
 
             // foreign key
 
-            // $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
              $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             // $table->foreign(User::class, 'teacher_id');
         });

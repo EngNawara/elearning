@@ -6,6 +6,8 @@ use App\Http\Requests\CourseRequest;
 use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
@@ -18,8 +20,13 @@ class CourseController extends Controller
     public function index()
     {
         //
-        $courses = Course::all();
-        // dd($courses);
+        $user = auth()->user();
+        if ($user->role_id === 1) {
+            $courses = Course::all();
+        } elseif ($user->role_id === 2) {
+            $user_id = $user->id;
+            $courses = Course::where('teacher_id', $user_id)->get();
+        }
         return view('courses.index', compact('courses'));
     }
 
@@ -30,32 +37,41 @@ class CourseController extends Controller
     {
         //
         $categories = Category::all();
-        return view('courses.create',compact('categories'));
+        return view('courses.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(CourseRequest $request)
     {
-        //
-
-       DB::beginTransaction();
+        DB::beginTransaction();
+        $user = auth()->user();
         try {
-            //create new course
+            // Create a new course
             $course = new Course;
             $course->fill($request->all());
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/Course'), $imageName);
+                $course->image = 'storage/Course/' . $imageName;
+                $course->teacher_id = $user->id;
+            }
+
             $course->save();
             DB::commit();
 
-            // redirect to success pagee
-            return  redirect()->route('courses.index')->with('success', 'Course Created Successfully');
+            // Redirect to the success page
+            return redirect()->route('courses.index')->with('success', 'Course Created Successfully');
         } catch (\Exception $e) {
-            // rolle back the transaction after error occurred
+            // Rollback the transaction after an error occurs
             DB::rollBack();
 
-            // handle the error
-            return back()->with('error', 'An error occurred while creating the course');
+            // Handle the error
+            return back()->with('error', 'An error occurred while creating the course: ' . $e->getMessage());
         }
     }
 
@@ -75,9 +91,15 @@ class CourseController extends Controller
     public function edit(string $id)
     {
         //
-        $course = Course::find($id);
+        $user = auth()->user();
         $categories = Category::all();
-        // dd($categories);
+        if ($user->role_id === 1) {
+            $course = Course::find($id);
+        } elseif ($user->role_id === 2) {
+            $user_id = $user->id;
+            $courses = Course::where('teacher_id', $user_id)->get();
+            $course = $courses->find($id);
+        }
         return view('courses.edit', compact('course', 'categories'));
     }
 
@@ -96,11 +118,17 @@ class CourseController extends Controller
                 return redirect('/courses')->with('error', 'Course not found');
             }
             $course->fill($request->all());
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/Course'), $imageName);
+                $course->image = 'storage/Course/' . $imageName;
+            }
             $course->save();
             DB::commit();
 
             //redirect to a success page or return a response
-            return redirect('/courses')->with('success', 'Course updated successfully');
+            return redirect()->route('courses.index')->with('success', 'Course updated successfully');
         } catch (\Exception $e) {
             //an error
             DB::rollBack();
@@ -111,10 +139,23 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+
     public function destroy(Course $course)
     {
-        //
-        $course->delete();
+        $user = auth()->user();
+
+        if ($user->role_id === 1) {
+            $course->delete();
+        } elseif ($user->role_id === 2) {
+            // Assuming 'teacher_id' is the column in the courses table that stores the teacher's ID
+            if ($course->teacher_id === $user->id) {
+                $course->delete();
+            } else {
+                return redirect()->route('courses.index')->with('error', "You don't have permission to delete this course.");
+            }
+        }
+
         return redirect()->route('courses.index')->with('success', "Course deleted Successfully");
     }
 }

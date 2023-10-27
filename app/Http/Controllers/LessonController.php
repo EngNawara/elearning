@@ -38,12 +38,18 @@ class LessonController extends Controller
 
         // DB::beginTransaction();
         // try {
-            //code...
-            $lesson = new Lesson;
-            $lesson->fill($request->all());
-            $lesson->save();
-            // DB::commit();
-            return redirect()->route('courses.lessons.index',['course'=>$course->id])->with('success', 'Lessons created Successfuly');
+        //code...
+        $lesson = new Lesson;
+        $lesson->fill($request->all());
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/Lessons'), $imageName);
+            $lesson->image = 'storage/Lessons/' . $imageName;
+        }
+        $lesson->save();
+        // DB::commit();
+        return redirect()->route('courses.lessons.index', ['course' => $course->id])->with('success', 'Lessons created Successfuly');
         // } catch (\Exception $e) {
         //     //throw $th;
         //     DB::rollBack();
@@ -63,17 +69,16 @@ class LessonController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Course $course , Lesson $lesson)
+    public function edit(Course $course, Lesson $lesson)
     {
         //
-        return view('lessons.edit',compact('course','lesson'));
-
+        return view('lessons.edit', compact('course', 'lesson'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(LessonRequest $request,Course $course ,$id)
+    public function update(LessonRequest $request, Course $course, $id)
     {
         //
         DB::beginTransaction();
@@ -84,11 +89,17 @@ class LessonController extends Controller
                 DB::rollBack();
                 return redirect('/courses')->with('error', 'Lesson not found');
             }
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/Lessons'), $imageName);
+                $lesson->image = 'storage/Lessons/' . $imageName;
+            }
             $lesson->update($request->all());
             DB::commit();
 
             //redirect to a success page or return a response
-            return redirect()->route('courses.lessons.index',['course'=>$course->id])->with('success', 'Lesson updated successfully');
+            return redirect()->route('courses.lessons.index', ['course' => $course->id])->with('success', 'Lesson updated successfully');
         } catch (\Exception $e) {
             //an error
             DB::rollBack();
@@ -99,8 +110,12 @@ class LessonController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         //
+        $lesson = Lesson::findOrFail($id);
+        $course = $lesson->course;
+        $lesson->delete();
+        return redirect()->route('courses.lessons.index', ['course' => $course->id])->with('success', 'Lesson Deleted successfully');
     }
 }

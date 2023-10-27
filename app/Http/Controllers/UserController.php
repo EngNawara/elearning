@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -18,12 +19,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('users.index', compact('users'));
+        $roles = Role::pluck('role')->all();
+        return view('users.index', compact('users', 'roles'));
     }
 
     public function create()
     {
-        $roles = Role::pluck('name')->all();
+        $roles = Role::pluck('role')->all();
         return view('users.create', compact('roles'));
     }
 
@@ -39,14 +41,14 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
-            'role' => 'required',
+            'role_id' => 'required',
         ]);
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-
+        $input['role_id'] = $request-> role_id + 1;
+        // dd($input);
         $user = User::create($input);
-        $user->role_id = $request->input('role');
 
         return redirect()->route('user.index')
             ->with('success', 'User created successfully');
@@ -55,8 +57,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name')->all();
-
+        $roles = Role::pluck('role')->all();
         return view('users.edit', compact('user', 'roles'));
     }
 
@@ -66,7 +67,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'same:confirm-password',
-            'role' => 'required',
+            'role_id' => 'required',
         ]);
 
         $input = $request->all();
@@ -78,7 +79,8 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->update($input);
-        $user->role_id = $request->role;
+        $user->role_id = $request->role_id + 1;
+
         $user->save();
 
         return redirect()->route('user.index')

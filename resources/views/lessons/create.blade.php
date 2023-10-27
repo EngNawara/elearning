@@ -9,7 +9,8 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h2>Creat Course</h2>
+                    <h3>{{ $course->name }}</h3>
+                            <h2>Creat Lesson </h2>
                         </div>
                         <div class="pull-right">
                             <a class="btn btn-primary" href="{{ route('courses.lessons.index', ['course'=>$course->id]) }}"> Back</a>
@@ -63,7 +64,7 @@
                                 'status',
                                 [
                                     'enabled' => 'Enabled',
-                                    'disabled' => 'Disabled',
+                                    'disable' => 'Disabled',
                                 ],
                                 null,
                                 ['placeholder' => 'status', 'class' => 'form-control'],

@@ -45,7 +45,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-icon btn-sm"
-                                                onclick="return confirm('Are you sure you want to delete this category?')">
+                                                onclick="return confirm('Are you sure you want to delete this Lessons?')">
                                             <i class="now-ui-icons ui-1_simple-remove"></i>
                                                 <i class="fas fa-trash"></i>
                                             </button>

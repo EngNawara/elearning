@@ -9,13 +9,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="page-banner-cont">
-                        <h2>@lang('Our Courses')
+                        <h2>@lang('Our Lessons ')  in {{ $course->name }} Course
                             {{ request()->segment(1) == 'Category' ? '- ' . Str::replace('-', ' ', Str::ucfirst(request()->segment(2))) : '' }}
                         </h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">@lang('Home')</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">@lang('Courses')</li>
+                                <li class="breadcrumb-item active" aria-current="page">@lang('Lessons')</li>
                             </ol>
                         </nav>
                     </div> <!-- page banner cont -->
@@ -55,82 +56,78 @@
                     </div> <!-- courses top search -->
                 </div>
             </div> <!-- row -->
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
-                    <div class="row">
-                        @foreach ($lessons as $lesson)
-                            <div class="col-lg-4 col-md-6">
-                                <div class="singel-course mt-30">
-                                    <div class="thum">
-                                        {{-- <div class="image">
-                                            <img src="{{ $course->image() }}" alt="Course">
-                                        </div> --}}
-                                        {{-- <div class="price">
-                                            <span>{{ $course->price() }}</span>
-                                        </div> --}}
-                                    </div>
-                                    <div class="cont">
-                                        <ul>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <span>(20 Reviws)</span>
-                                        <a href="#">
-                                            {{-- <a href={{ route('Courses.single', [$course->id, $course->slug]) }}"> --}}
-                                            {{-- <a href={{ $course->link() }}"> --}}
-                                            <h4>{{ $lesson->title }}</h4>
-                                        </a>
-                                        <div class="course-teacher">
-                                            {{-- <div class="thum">
-                                                <a href="#"><img src="{{ $course->teacher->image() }}" alt="teacher"></a>
-                                            </div> --}}
-                                            {{-- <div class="name">
-                                                <a href="{{ $course->teacher->link() }}">
-                                                    <h6>{{ $course->teacher->name }}</h6>
-                                                </a>
-                                            </div> --}}
-                                            {{-- <div class="admin">
-                                                <ul>
-                                                    <li><a href="#"><i
-                                                                class="fa fa-user"></i><span>{{ count($course->students) }}</span></a>
-                                                    </li>
-                                                    <li><a href="#"><i class="fa fa-heart"></i><span>10</span></a></li>
-                                                </ul>
-                                            </div> --}}
+            <div class="row ">
+                <div class="py-5 ">
+                    <div class="container ">
+                        <div class="row d-flex flex-row g-4 justify-content-center">
+                            @foreach ($lessons as $lesson)
+                                <div class="col-lg-4 col-md-6 wow fadeInUp p-3" data-wow-delay="0.1s">
+                                    <div class="course-item bg-light">
+                                        <div class="position-relative mb-4">
+                                            @if ($lesson->image)
+                                                <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
+                                                    alt="{{ $lesson->title }}" />
+                                            @endif
+                                            <div
+                                                class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
+                                                <a href="{{ route('Courses.lessons.index', $lesson->id) }}"
+                                                    class="flex-shrink-0 btn btn-sm btn-primary px-3 "
+                                                    >Read More</a>
+                                                {{-- <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                                                    style="border-radius: 0 30px 30px 0;">Join Now</a> --}}
+                                            </div>
                                         </div>
+                                        <div class="text-center p-4 pb-0">
+                                            {{-- <h3 class="mb-0">{{ $course->price() }}</h3> --}}
+                                            <div class="mb-3">
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small>(123)</small>
+                                            </div>
+                                            <h5 class="mb-4">{{ $lesson->title }}</h5>
+                                        </div>
+                                        {{-- <div class="d-flex border-top">
+                                            <small class="flex-fill text-center border-end py-2"><i
+                                                    class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
+                                            <small class="flex-fill text-center border-end py-2"><i
+                                                    class="fa fa-clock text-primary me-2"></i>{{ $course->duration }}</small>
+                                            <small class="flex-fill text-center py-2"><i
+                                                    class="fa fa-user text-primary me-2"></i>30
+                                                Students</small>
+                                        </div> --}}
                                     </div>
-                                </div> <!-- singel course -->
-                            </div>
-                        @endforeach
-
-                    </div> <!-- row -->
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-            </div> <!-- tab content -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <nav class="courses-pagination mt-50">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item">
-                                <a href="#" aria-label="Previous">
-                                    <i class="fa fa-angle-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="active" href="#">1</a></li>
-                            <li class="page-item"><a href="#">2</a></li>
-                            <li class="page-item"><a href="#">3</a></li>
-                            <li class="page-item">
-                                <a href="#" aria-label="Next">
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav> <!-- courses pagination -->
-                </div>
-            </div> <!-- row -->
+        </div> <!-- tab content -->
+        <div class="row">
+            <div class="col-lg-12">
+                <nav class="courses-pagination mt-50">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a href="#" aria-label="Previous">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="active" href="#">1</a></li>
+                        <li class="page-item"><a href="#">2</a></li>
+                        <li class="page-item"><a href="#">3</a></li>
+                        <li class="page-item">
+                            <a href="#" aria-label="Next">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav> <!-- courses pagination -->
+            </div>
+        </div> <!-- row -->
         </div> <!-- container -->
     </section>
 
