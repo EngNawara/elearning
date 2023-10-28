@@ -25,7 +25,6 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $category = new Category();
@@ -68,12 +67,14 @@ class CategoryController extends Controller
         $category->save();
 
         return redirect()->route('category.index')->with('success', 'Category Created Successfully');
-
     }
 
     public function destroy(Category $category)
     {
         //
+        $category->delete();
+        // redirect to  the index page
+        return redirect()->route('category.index')->with('success', "Category Deleted Successfully");
     }
 
     public function single($slug)
@@ -83,7 +84,7 @@ class CategoryController extends Controller
 
         // dd($category);
         return view(
-            'jambasangsang.frontend.courses.index',
+            'frontend.courses.index',
             ['courses' => $courses]
         );
     }

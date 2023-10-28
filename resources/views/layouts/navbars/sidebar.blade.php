@@ -46,7 +46,13 @@
                     <p>Categories</p>
                 </a>
             </li>
-            <li class="@if ($activePage == 'maps') active @endif">
+            <li class="@if ($activePage == 'courses') active @endif">
+                <a href="{{ route('courses.index') }}">
+                    <i class="now-ui-icons design_bullet-list-67"></i>
+                    <p>Courses</p>
+                </a>
+            </li>
+            {{-- <li class="@if ($activePage == 'maps') active @endif">
                 <a href="{{ route('page.index', 'maps') }}">
                     <i class="now-ui-icons location_map-big"></i>
                     <p>{{ __('Maps') }}</p>
@@ -75,7 +81,7 @@
                     <i class="now-ui-icons arrows-1_cloud-download-93"></i>
                     <p>{{ __('Upgrade to PRO') }}</p>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </div>

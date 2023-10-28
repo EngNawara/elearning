@@ -30,26 +30,41 @@
                             </thead>
 
                             <tbody>
+                                @if ($categories)
                                 @foreach ($categories as $category)
-                                    <tr>
+                                <tr>
 
-                                        <td>{{ $category->name }}</td>
-                                        <td>
-                                            <span class="avatar avatar-sm rounded-circle">
-                                                <img src="{{ asset('storage') }}/images/{{ $category->image }}"
-                                                    alt="" style="max-width: 80px; border-radiu: 100px">
-                                            </span>
-                                        </td>
-                                        <td>{{ $category->created_at }}</td>
-                                        <td class="text-right">
-                                            <a type="button" href="{{ route('category.edit', $category->id) }}"
-                                                rel="tooltip" class="btn btn-success btn-icon btn-sm "
-                                                data-original-title="" title="">
-                                                <i class="now-ui-icons ui-2_settings-90"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    <td>{{ $category->name }}</td>
+                                    <td>
+                                        <span class="avatar avatar-sm rounded-circle">
+                                            <img src="{{ asset('storage') }}/images/{{ $category->image }}"
+                                                alt="" style="max-width: 80px; border-radiu: 100px">
+                                        </span>
+                                    </td>
+                                    <td>{{ $category->created_at }}</td>
+                                    <td class="text-right">
+                                        <a type="button" href="{{ route('category.edit', $category->id) }}"
+                                            rel="tooltip" class="btn btn-success btn-icon btn-sm "
+                                            data-original-title="" title="">
+                                            <i class="now-ui-icons ui-2_settings-90"></i>
+                                        </a>
+                                        <form action="{{ route('category.destroy', $category->id) }}" method="POST"
+                                            style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-icon btn-sm"
+                                                onclick="return confirm('Are you sure you want to delete this category?')">
+                                                {{-- <i class="now-ui-icons ui-1_simple-remove"></i> --}}
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                                @endif
+
                             </tbody>
                         </table>
                     </div>
