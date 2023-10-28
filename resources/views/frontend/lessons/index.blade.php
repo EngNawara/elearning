@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="page-banner-cont">
-                        <h2>@lang('Our Lessons ')  in {{ $course->name }} Course
+                        <h2>@lang('Our Lessons ') in {{ $course->name }} Course
                             {{ request()->segment(1) == 'Category' ? '- ' . Str::replace('-', ' ', Str::ucfirst(request()->segment(2))) : '' }}
                         </h2>
                         <nav aria-label="breadcrumb">
@@ -60,47 +60,48 @@
                 <div class="py-5 ">
                     <div class="container ">
                         <div class="row d-flex flex-row g-4 justify-content-center">
-                            @foreach ($lessons as $lesson)
-                                <div class="col-lg-4 col-md-6 wow fadeInUp p-3" data-wow-delay="0.1s">
-                                    <div class="course-item bg-light">
-                                        <div class="position-relative mb-4">
-                                            @if ($lesson->image)
-                                                <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
-                                                    alt="{{ $lesson->title }}" />
-                                            @endif
-                                            <div
-                                                class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
-                                                <a href="{{ route('Courses.lessons.index', $lesson->id) }}"
-                                                    class="flex-shrink-0 btn btn-sm btn-primary px-3 "
-                                                    >Read More</a>
-                                                {{-- <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
-                                                    style="border-radius: 0 30px 30px 0;">Join Now</a> --}}
+                            @if ($lessons)
+                                @foreach ($lessons as $lesson)
+                                    <div class="col-lg-4 col-md-6 wow fadeInUp p-3" data-wow-delay="0.1s">
+                                        <div class="course-item bg-light">
+                                            <div class="position-relative mb-4">
+                                                @if ($lesson->image)
+                                                    <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
+                                                        alt="{{ $lesson->title }}" />
+                                                @endif
+                                                <div
+                                                    class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
+                                                    <a href="{{ route('Courses.lessons.index', $lesson->id) }}"
+                                                        class="flex-shrink-0 btn btn-sm btn-primary px-3 ">Read More</a>
+                                                    {{-- <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                                                style="border-radius: 0 30px 30px 0;">Join Now</a> --}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="text-center p-4 pb-0">
-                                            {{-- <h3 class="mb-0">{{ $course->price() }}</h3> --}}
-                                            <div class="mb-3">
-                                                <small class="fa fa-star text-primary"></small>
-                                                <small class="fa fa-star text-primary"></small>
-                                                <small class="fa fa-star text-primary"></small>
-                                                <small class="fa fa-star text-primary"></small>
-                                                <small class="fa fa-star text-primary"></small>
-                                                <small>(123)</small>
+                                            <div class="text-center p-4 pb-0">
+                                                {{-- <h3 class="mb-0">{{ $course->price() }}</h3> --}}
+                                                <div class="mb-3">
+                                                    <small class="fa fa-star text-primary"></small>
+                                                    <small class="fa fa-star text-primary"></small>
+                                                    <small class="fa fa-star text-primary"></small>
+                                                    <small class="fa fa-star text-primary"></small>
+                                                    <small class="fa fa-star text-primary"></small>
+                                                    <small>(123)</small>
+                                                </div>
+                                                <h5 class="mb-4">{{ $lesson->title }}</h5>
                                             </div>
-                                            <h5 class="mb-4">{{ $lesson->title }}</h5>
+                                            {{-- <div class="d-flex border-top">
+                                        <small class="flex-fill text-center border-end py-2"><i
+                                                class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
+                                        <small class="flex-fill text-center border-end py-2"><i
+                                                class="fa fa-clock text-primary me-2"></i>{{ $course->duration }}</small>
+                                        <small class="flex-fill text-center py-2"><i
+                                                class="fa fa-user text-primary me-2"></i>30
+                                            Students</small>
+                                    </div> --}}
                                         </div>
-                                        {{-- <div class="d-flex border-top">
-                                            <small class="flex-fill text-center border-end py-2"><i
-                                                    class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                                            <small class="flex-fill text-center border-end py-2"><i
-                                                    class="fa fa-clock text-primary me-2"></i>{{ $course->duration }}</small>
-                                            <small class="flex-fill text-center py-2"><i
-                                                    class="fa fa-user text-primary me-2"></i>30
-                                                Students</small>
-                                        </div> --}}
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>

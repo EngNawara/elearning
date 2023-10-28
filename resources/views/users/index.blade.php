@@ -30,27 +30,29 @@
                             </thead>
 
                             <tbody>
-                                @foreach ($users as $user)
-                                    <tr>
-                                        <td>
-                                            <span class="avatar avatar-sm rounded-circle">
-                                                <img src="{{ asset('assets') }}/img/default-avatar.png" alt=""
-                                                    style="max-width: 80px; border-radiu: 100px">
-                                            </span>
-                                        </td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $roles[$user->role_id - 1] }}</td>
-                                        <td>{{ $user->created_at }}</td>
-                                        <td class="text-right">
-                                            <a type="button" href="{{ route('user.edit', $user->id) }}" rel="tooltip"
-                                                class="btn btn-success btn-icon btn-sm " data-original-title=""
-                                                title="">
-                                                <i class="now-ui-icons ui-2_settings-90"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @if ($users)
+                                    @foreach ($users as $user)
+                                        <tr>
+                                            <td>
+                                                <span class="avatar avatar-sm rounded-circle">
+                                                    <img src="{{ asset('assets') }}/img/default-avatar.png" alt=""
+                                                        style="max-width: 80px; border-radiu: 100px">
+                                                </span>
+                                            </td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $roles[$user->role_id - 1] }}</td>
+                                            <td>{{ $user->created_at }}</td>
+                                            <td class="text-right">
+                                                <a type="button" href="{{ route('user.edit', $user->id) }}" rel="tooltip"
+                                                    class="btn btn-success btn-icon btn-sm " data-original-title=""
+                                                    title="">
+                                                    <i class="now-ui-icons ui-2_settings-90"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

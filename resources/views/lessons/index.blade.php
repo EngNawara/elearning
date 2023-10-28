@@ -7,7 +7,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('courses.lessons.create',['course' => $course->id]) }}">Add
+                        <a class="btn btn-primary btn-round text-white pull-right"
+                            href="{{ route('courses.lessons.create', ['course' => $course->id]) }}">Add
                             Lesson</a>
                         <h4 class="card-title">Lessons </h4>
                         <div class="col-12 mt-2">
@@ -28,31 +29,37 @@
                                     <th class="disabled-sorting text-right">Actions</th>
                                 </tr>
                             </thead>
-                            @foreach ($lessons as $lesson)
-                                <tbody>
-                                    <td>{{ $lesson->title }}</td>
-                                    <td>{{ $lesson->content }}</td>
-                                    <td>{{ $lesson->course_id }}</td>
-                                    <td>{{ $lesson->status }}</td>
-                                    {{-- <td>{{ $lesson->status }}</td> --}}
-                                    <td class="text-right">
-                                        <a type="button" href="{{ route('courses.lessons.edit', ['lesson'=>$lesson->id,'course' => $course->id]) }}" rel="tooltip"
-                                            class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
-                                            <i class="now-ui-icons ui-2_settings-90"></i>
-                                        </a>
-                                        <form action="{{ route('courses.lessons.destroy',['lesson'=>$lesson->id,'course' => $course->id]) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-icon btn-sm"
-                                                onclick="return confirm('Are you sure you want to delete this Lessons?')">
-                                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tbody>
-                            @endforeach
+                            @if ($lessons)
+                                @foreach ($lessons as $lesson)
+                                    <tbody>
+                                        <td>{{ $lesson->title }}</td>
+                                        <td>{{ $lesson->content }}</td>
+                                        <td>{{ $lesson->course_id }}</td>
+                                        <td>{{ $lesson->status }}</td>
+                                        {{-- <td>{{ $lesson->status }}</td> --}}
+                                        <td class="text-right">
+                                            <a type="button"
+                                                href="{{ route('courses.lessons.edit', ['lesson' => $lesson->id, 'course' => $course->id]) }}"
+                                                rel="tooltip" class="btn btn-success btn-icon btn-sm "
+                                                data-original-title="" title="">
+                                                <i class="now-ui-icons ui-2_settings-90"></i>
+                                            </a>
+                                            <form
+                                                action="{{ route('courses.lessons.destroy', ['lesson' => $lesson->id, 'course' => $course->id]) }}"
+                                                method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-icon btn-sm"
+                                                    onclick="return confirm('Are you sure you want to delete this Lessons?')">
+                                                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tbody>
+                                @endforeach
+                            @endif
+
                         </table>
                     </div>
                     <!-- end content-->
