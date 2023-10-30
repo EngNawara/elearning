@@ -157,7 +157,7 @@
         position: relative;
         min-height: 500px;
     }
-    
+
     .header-carousel .owl-carousel-item img {
         position: absolute;
         width: 100%;
@@ -431,4 +431,39 @@
     margin-right: 0;
     padding-right: 0;
     border-right: none;
+}
+
+/* categoru in home page  */
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.8s;
+    z-index: 30;
+}
+
+.category-link:hover .overlay {
+    opacity: 1 !important;
+    transition: step-start 0.5s;
+}
+
+.category-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) ;
+    text-align: center;
+    display: none; /* Hide the category info by default */
+    color: white; /* Text color for the name and course count */
+    z-index: 99; /* Place it above the overlay */
+    transition: ease-in-out 5s !important;
+}
+
+.col-lg-6:hover .category-info {
+    display: block; /* Show the category info on hover */
 }

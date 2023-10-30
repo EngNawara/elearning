@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontEnd\CourseController as FrontEndCourseController;
@@ -27,7 +28,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
     Route::get('/', function () {
         return view('dashBorad');
-    });
+    })->name('dashborad');
     Route::group(['middleware' => 'checkRole:teacher,admin'], function () {
         Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
         Route::resource('roles', 'App\Http\Controllers\RoleController');
@@ -38,6 +39,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
         Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
         Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
         Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
+        Route::put('courses/{course}/update-is-popular', [CourseController::class, 'updateIsPopular'])->name('courses.updateIsPopular');
+        Route::put('category/{category}/homecategory', [CategoryController::class, 'homecategory'])->name('category.homecategory');
     });
 });
 

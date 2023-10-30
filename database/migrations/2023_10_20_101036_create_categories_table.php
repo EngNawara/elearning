@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->enum('status', ['enable', 'disables'])->default('enable');
             $table->string('image')->nullable();
+            $table->enum('is_active_in_home', ['on' , 'off'])->default('off');
             $table->timestamps();
         });
     }

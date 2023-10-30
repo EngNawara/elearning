@@ -35,7 +35,7 @@ class LoginController extends Controller
         } else {
             return redirect()-route('dashborad');
         }
-        return redirect()->route('default');
+        // return redirect()->route('default');
     }
 
     /**

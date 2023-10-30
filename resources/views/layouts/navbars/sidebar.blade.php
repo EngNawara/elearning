@@ -16,30 +16,43 @@
                     <p>{{ __('Dashboard') }}</p>
                 </a>
             </li>
-            <li>
-                <a data-toggle="collapse" href="#laravelExamples">
-                    <i class="fab fa-laravel"></i>
-                    <p>
-                        Users
-                        <b class="caret"></b>
-                    </p>
-                </a>
-                <div class="collapse show" id="laravelExamples">
-                    <ul class="nav">
-                        <li class="@if ($activePage == 'profile') active @endif">
-                            <a href="{{ route('profile.edit') }}">
-                                <i class="now-ui-icons users_single-02"></i>
-                                <p> {{ __('User Profile') }} </p>
-                            </a>
-                        </li>
-                        <li class="@if ($activePage == 'users') active @endif">
-                            <a href="{{ route('user.index') }}">
-                                <i class="now-ui-icons design_bullet-list-67"></i>
-                                <p> {{ __('User Management') }} </p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            @auth
+                @if (auth()->user()->role_id == 1)
+                    <li>
+                        <a data-toggle="collapse" href="#laravelExamples">
+                            <i class="fab fa-laravel"></i>
+                            <p>
+                                Users
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <div class="collapse show" id="laravelExamples">
+                            <ul class="nav">
+                                <li class="@if ($activePage == 'profile') active @endif">
+                                    <a href="{{ route('profile.edit') }}">
+                                        <i class="now-ui-icons users_single-02"></i>
+                                        <p> {{ __('User Profile') }} </p>
+                                    </a>
+                                </li>
+
+                                <li class="@if ($activePage == 'users') active @endif">
+                                    <a href="{{ route('user.index') }}">
+                                        <i class="now-ui-icons design_bullet-list-67"></i>
+                                        <p> {{ __('User Management') }} </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @elseif (auth()->user()->role_id == 2)
+                    <li>
+                        <a href="{{ route('profile.edit') }}">
+                            <i class="now-ui-icons users_single-02"></i>
+                            <p> Your Profile </p>
+                        </a>
+                    </li>
+                @endif
+            @endauth
             <li class="@if ($activePage == 'categories') active @endif">
                 <a href="{{ route('category.index') }}">
                     <i class="now-ui-icons design_bullet-list-67"></i>

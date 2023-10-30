@@ -58,9 +58,9 @@ class CourseController extends Controller
                 $imageName = time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/Course'), $imageName);
                 $course->image = 'storage/Course/' . $imageName;
-                $course->teacher_id = $user->id;
             }
 
+            $course->teacher_id = $user->id;
             $course->save();
             DB::commit();
 
@@ -109,6 +109,7 @@ class CourseController extends Controller
     public function update(CourseRequest $request,  $id)
     {
         //start dataBase transaction
+        // dd($request->all());
         DB::beginTransaction();
         try {
             //find the course by its ID...
@@ -123,6 +124,9 @@ class CourseController extends Controller
                 $imageName = time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/Course'), $imageName);
                 $course->image = 'storage/Course/' . $imageName;
+            }
+            if ($request->has('is_popular')) {
+                $course->is_popular = $request->input('is_popular');
             }
             $course->save();
             DB::commit();
@@ -157,5 +161,17 @@ class CourseController extends Controller
         }
 
         return redirect()->route('courses.index')->with('success', "Course deleted Successfully");
+    }
+
+    public function updateIsPopular(Request $request,  $id)
+    {
+        //  dd($request->all());
+        $request->validate([
+            'is_popular' => 'required',
+        ]);
+        $course = Course::findOrFail($id);
+        $course->is_popular = $request->input('is_popular');
+        $course->save();
+        return redirect()->route('courses.index')->with('success', 'Course updated successfully');
     }
 }
