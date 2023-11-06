@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="page-banner-cont">
-                        <h2>@lang('Our ')
+                        <h2>@lang('Courses ')
                             {{ request()->segment(1) == 'Category' ? '- ' . Str::replace('-', ' ', Str::ucfirst(request()->segment(2))) : '' }}
                         </h2>
                         <nav aria-label="breadcrumb">
@@ -46,18 +46,34 @@
                             <li class="nav-item">Showning 4 0f 24 Results</li>
                         </ul> <!-- nav -->
 
-                        <div class="courses-search float-right">
+                        {{-- <div class="courses-search float-right">
                             <form action="#">
                                 <input type="text" placeholder="Search">
                                 <button type="button"><i class="fa fa-search"></i></button>
                             </form>
-                        </div> <!-- courses search -->
+                        </div> <!-- courses search --> --}}
                     </div> <!-- courses top search -->
                 </div>
             </div> <!-- row -->
             <div class="row ">
                 <div class="py-5 ">
                     <div class="container ">
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
                         <div class="row d-flex flex-row g-4 justify-content-center">
                             @if ($courses)
                                 @foreach ($courses as $course)
@@ -68,13 +84,42 @@
                                                     <img class="img-fluid z-10" src="{{ asset($course->image) }}"
                                                         alt="{{ $course->title }}" />
                                                 @endif
+                                                @auth
+                                                    @php
+                                                        $user = auth()->user();
+                                                        $courseUser = App\Models\CourseUser::where('user_id', $user->id)
+                                                            ->where('course_id', $course->id)
+                                                            ->first();
+                                                    @endphp
+                                                @endauth
+
                                                 <div
                                                     class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
                                                     <a href="{{ route('Courses.lessons.index', $course->id) }}"
                                                         class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
                                                         style="border-radius: 30px 0 0 30px;">Read More</a>
-                                                    <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
-                                                        style="border-radius: 0 30px 30px 0;">Join Now</a>
+                                                    @if (auth()->check())
+                                                        {{-- Check if the user is authenticated --}}
+                                                        <form
+                                                            action="{{ route('course.userscourse.enroll', ['course_id' => $course->id, 'user_id' => auth()->user()->id]) }}"
+                                                            method="POST" style="display: inline;">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                                                                @if ($courseUser && $courseUser->enrollment_status) disabled @endif>
+                                                                @if ($courseUser)
+                                                                    {{ $courseUser->enrollment_status }}
+                                                                @else
+                                                                    Join Now
+                                                                @endif
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <a href="{{ route('loginFront') }}"
+                                                            class="btn btn-sm btn-primary px-3 border-end">Login to
+                                                            Enroll</a>
+                                                    @endif
+
                                                 </div>
                                             </div>
                                             <div class="text-center p-4 pb-0">
@@ -89,15 +134,15 @@
                                                 </div>
                                                 <h5 class="mb-4">{{ $course->name }}</h5>
                                             </div>
-                                                <div class="d-flex border-top">
-                                                    <small class="flex-fill text-center border-end py-2"><i
-                                                            class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                                                    <small class="flex-fill text-center border-end py-2"><i
-                                                            class="fa fa-clock text-primary me-2"></i>{{ $course->duration }}</small>
-                                                    <small class="flex-fill text-center py-2"><i
-                                                            class="fa fa-user text-primary me-2"></i>30
-                                                        Students</small>
-                                                </div>
+                                            <div class="d-flex border-top">
+                                                <small class="flex-fill text-center border-end py-2"><i
+                                                        class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
+                                                <small class="flex-fill text-center border-end py-2"><i
+                                                        class="fa fa-clock text-primary me-2"></i>{{ $course->duration }}</small>
+                                                <small class="flex-fill text-center py-2"><i
+                                                        class="fa fa-user text-primary me-2"></i>30
+                                                    Students</small>
+                                            </div>
 
 
                                         </div>

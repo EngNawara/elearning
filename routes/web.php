@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontEnd\CourseController as FrontEndCourseController;
 use App\Http\Controllers\FrontEnd\LessonsController as FrontEndLessonsController;
 use App\Http\Controllers\LessonController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,12 +37,15 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
         Route::resource('courses', 'App\Http\Controllers\CourseController');
         Route::resource('category', 'App\Http\Controllers\CategoryController');
         Route::resource('courses.lessons', LessonController::class);
+        Route::resource('/courses/{course_id}/userscourse', CourseUserController::class);
         Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
         Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
         Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
         Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
         Route::put('courses/{course}/update-is-popular', [CourseController::class, 'updateIsPopular'])->name('courses.updateIsPopular');
         Route::put('category/{category}/homecategory', [CategoryController::class, 'homecategory'])->name('category.homecategory');
+        Route::post('courses/{course_id}/userscourse/enroll', [CourseUserController::class, 'enrollUser'])->name('course.userscourse.enroll');
+        Route::post('courses/{course_id}/userscourse/unenrollUser', [CourseUserController::class, 'unenrollUser'])->name('course.userscourse.unenrollUser');
     });
 });
 

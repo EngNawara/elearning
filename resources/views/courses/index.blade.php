@@ -41,8 +41,9 @@
                                             <th class="disabled-sorting text-right">IS active In Home page</th>
                                         @endif
                                     @endauth
-
+                                    <th>Course order</th>
                                     <th></th>
+
                                 </tr>
                             </thead>
                             @if ($courses)
@@ -60,6 +61,9 @@
                                                 <img src="{{ asset($course->image) }}" alt=""
                                                     style="max-width: 80px; border-radiu: 100px">
                                             </span>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('userscourse.index',$course->id) }}" class=" btn btn-success">Show Order</a>
                                         </td>
                                         @auth
                                             @if (auth()->user()->role_id === 2)

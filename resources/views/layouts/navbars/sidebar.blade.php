@@ -65,6 +65,15 @@
                     <p>Courses</p>
                 </a>
             </li>
+            {{-- @if (auht()->user()->role_id = 2) --}}
+            {{-- <li class="@if ($activePage == 'maps') active @endif">
+                <a href="{{ route('usercours.index') }}">
+                    <i class="now-ui-icons location_map-big"></i>
+                    <p>Order Course</p>
+                </a>
+            </li> --}}
+            {{-- @endif --}}
+
             {{-- <li class="@if ($activePage == 'maps') active @endif">
                 <a href="{{ route('page.index', 'maps') }}">
                     <i class="now-ui-icons location_map-big"></i>
