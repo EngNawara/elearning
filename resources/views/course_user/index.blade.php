@@ -44,7 +44,24 @@
                                             User ID not available
                                         @endif
                                     </td>
-                                    <td>{{ $courseUser->enrollment_status }}</td>
+                                    <td>
+                                        <form id="enrollment_status_form" class="form-group" method="POST" action="{{ route('userscourse.update', [$course->id, $courseUser->id]) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <select name="enrollment_status" class="form-control" id="enrollment_status" onchange="submitForm()">
+                                                @foreach($enrollmentStatuses as $status)
+                                                    <option value="{{ $status }}" @if($status === $courseUser->enrollment_status) selected @endif>{{ $status }}</option>
+                                                @endforeach
+                                            </select>
+                                        </form>
+
+                                        <script>
+                                        function submitForm() {
+                                            document.getElementById('enrollment_status_form').submit();
+                                        }
+                                        </script>
+
+                                    </td>
                                     <td>{{ $courseUser->enrollment_date }}</td>
 
                                     @auth

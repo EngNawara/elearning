@@ -9,18 +9,18 @@
     <div class="collapse navbar-collapse justify-content-between  id="navbarCollapse">
         <div class="navbar-nav  ms-auto p-4 p-lg-0">
             <div class="d-flex">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
+                <a href="{{ route('home') }}" class="nav-item nav-link ">Home</a>
+                <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
                 <a href="{{ route('Courses.index') }}" class="nav-item nav-link">Courses</a>
-                <div class="nav-item dropdown">
+                {{-- <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="team.html" class="dropdown-item">Our Team</a>
                         <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                         <a href="404.html" class="dropdown-item">404 Page</a>
                     </div>
-                </div>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                </div> --}}
+                <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
             </div>
         </div>
 
@@ -47,8 +47,9 @@
                     @csrf
                 </form>
                 <div class="dropdown-menu dropdown-menu-right fade-down" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('My profile') }}</a>
-                    <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Edit profile') }}</a>
+                    <a class="dropdown-item" href="{{ route('frontend.profile.edit') }}">{{ __('My profile') }}</a>
+                    <a class="dropdown-item" href="{{ route('frontend.listuserCourse') }}">{{ __('My Course') }}</a>
+                    <a class="dropdown-item" href="{{ route('frontend.profile.edit') }}">{{ __('Edit profile') }}</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">

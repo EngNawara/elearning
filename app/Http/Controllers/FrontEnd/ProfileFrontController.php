@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\FrontEnd;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Gate;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 
-class ProfileController extends Controller
+class ProfileFrontController extends Controller
 {
-    /**
+    //
+     /**
      * Show the form for editing the profile.
      *
      * @return \Illuminate\View\View

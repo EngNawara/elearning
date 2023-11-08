@@ -15,13 +15,15 @@ class CourseUserController extends Controller
     public function index($course_id)
     {
         //
+        $enrollmentStatuses = ['Enrolled', 'Pending', 'Completed', 'Dropped'];
+
         $courseUsers  = CourseUser::where('course_id', $course_id)->get();
         $course = Course::find($course_id);
         if (!$courseUsers) {
             return view('error', ['message' => 'Course not found']);
         }
         $users = $courseUsers->pluck('user');
-        return view('course_user.index', compact('course','users','courseUsers'));
+        return view('course_user.index', compact('course','users','courseUsers' ,'enrollmentStatuses'));
     }
 
     /**
@@ -59,9 +61,24 @@ class CourseUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Course $course , string $id)
     {
-        //
+            $request->validate(['enrollment_status'=>'required']);
+         if(auth()->user()->role_id === 2) {
+
+            $courseUser = CourseUser::find($id);
+            $course = Course::find($courseUser->id);
+        if ($course && $course->teacher_id === auth()->user()->id ){
+                // dd($courseUser);
+                $courseUser->update(['enrollment_status' => $request->input('enrollment_status')]);
+            return redirect()->back()->with('success' , ' The enrollment status updatedm successfuly');
+            }else{
+                return  redirect()->back()->with('error' , "you don't have any permation to do this");
+            }}
+            else {
+                // Redirect back with an error message for users with roles other than 2
+            return redirect()->back()->with('error', 'You do not have permission to do this');
+            }
     }
 
     /**

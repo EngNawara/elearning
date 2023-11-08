@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontEnd\CourseController as FrontEndCourseController;
 use App\Http\Controllers\FrontEnd\LessonsController as FrontEndLessonsController;
+use App\Http\Controllers\FrontEnd\CourseUserController as FrontEndCourseUserController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\LessonUserController;
@@ -22,9 +23,9 @@ use App\Http\Controllers\LessonUserController;
  */
 
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', function () {return view('home');});
+Route::get('about', function () {return view('about');})->name('about');
+Route::get('contact', function () {return view('contact');})->name('contact');
 
 Auth::routes();
 
@@ -39,8 +40,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
         Route::resource('category', 'App\Http\Controllers\CategoryController');
         Route::resource('courses.lessons', LessonController::class);
         Route::resource('/courses/{course_id}/userscourse', CourseUserController::class);
+        // edit profile for user (admin and teacher)
         Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
         Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
+        // edit profile for user (student)
+        Route::get('front/profile', ['as' => 'frontend.profile.edit', 'uses' => 'App\Http\Controllers\FrontEnd\ProfileFrontController@edit']);
+        Route::put('front/profile', ['as' => 'frontend.profile.edit', 'uses' => 'App\Http\Controllers\FrontEnd\ProfileFrontController@update']);
+
         Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
         Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
         Route::put('courses/{course}/update-is-popular', [CourseController::class, 'updateIsPopular'])->name('courses.updateIsPopular');
@@ -50,6 +56,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
         Route::post('courses/{course_id}/userscourse/unenrollUser', [CourseUserController::class, 'unenrollUser'])->name('course.userscourse.unenrollUser');
         // ratings
         Route::post('courses/rating' ,[RatingController::class ,'create'])->name('ratings.create');
+        // show list from  user course
+        Route::get('coursesUser/all',[FrontEndCourseUserController::class ,'index'])->name('frontend.listuserCourse');
     });
 });
 

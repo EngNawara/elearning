@@ -145,26 +145,26 @@
                 </div>
             </div>
         </div>
-        {{-- related course  --}}
+        {{-- rating  course  --}}
         <div class="row">
             <div class="py-5">
                 <div class="container">
                     <h3>You have completed this course. You can now rate this course:</h3>
                     <div class="mb-3">
-                        <form action="{{ route('ratings.create') }}" method="POST">
+                        <form action="{{ route('ratings.create') }}" method="POST" class="form-group col-5">
                             @csrf
                             <input type="hidden" name="course_id" value="{{ $course->id }}">
                             <label for="rate">Rate this course:</label>
-                            <select name="rate" id="rate">
+                            <select name="rate" id="rate" class="form-control ">
                                 <option value="1">1 Star</option>
                                 <option value="2">2 Stars</option>
                                 <option value="3">3 Stars</option>
                                 <option value="4">4 Stars</option>
                                 <option value="5">5 Stars</option>
                             </select>
-                            <label for="content">Leave a review (optional):</label>
-                            <textarea name="content" id="content" rows="4"></textarea>
-                            <button type="submit">Submit Rating</button>
+                            <label for="content" class="col-form-label">Leave a review (optional):</label>
+                            <input type="text" placeholder="write  your opinon" name="content" id="content" rows="4" class="form-control form-text rounded-lg" />
+                            <button type="submit" class="btn btn-primary m-2 rounded-lg">Submit Rating</button>
                         </form>
                     </div>
                 </div>
