@@ -26,12 +26,18 @@
 
 
         @guest
-        <div class="p-2"> <a href="{{ route('loginFront') }}" class="btn btn-primary  py-4 px-lg-5 d-none d-lg-block">Join Now<i
-            class="fa fa-arrow-right  ms-3"></i></a></div>
+            <div class="p-2"> <a href="{{ route('loginFront') }}"
+                    class="btn btn-primary  py-4 px-lg-5 d-none d-lg-block">Join Now<i
+                        class="fa fa-arrow-right  ms-3"></i></a></div>
 
-    @endguest
+        @endguest
         @auth
             <!-- Navbar -->
+            @if (auth()->user()->role_id != 3)
+                <div class="p-2"> <a href="{{ route('dashborad') }}"
+                        class="btn btn-primary  py-4 px-lg-5 d-none d-lg-block">Dashborad </a>
+                </div>
+            @endif
 
             <div class="nav-item dropdown ">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown">
@@ -44,7 +50,6 @@
                     <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('My profile') }}</a>
                     <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Edit profile') }}</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
-
                         onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}

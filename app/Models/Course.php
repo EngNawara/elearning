@@ -13,7 +13,20 @@ class Course extends Model
 
     use HasFactory;
 
-    protected $fillable = ['name', 'code', 'description', 'summary', 'requirement', 'teacher_id', 'category_id', 'status', 'price', 'duration', 'started_at', 'finished_at', 'image' ,'is_popular'];
+    protected $fillable = ['name',
+                            'code',
+                            'description',
+                            'summary',
+                            'requirement',
+                            'teacher_id',
+                            'category_id',
+                            'status',
+                            'price', 'duration',
+                            'started_at',
+                            'finished_at',
+                            'image' ,
+                            'is_popular',
+                            'is_best'];
 
     protected $casts = ['started_at' => 'datetime', 'finished_at' => 'datetime'];
 

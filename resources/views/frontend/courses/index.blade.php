@@ -77,8 +77,8 @@
                         <div class="row d-flex flex-row g-4 justify-content-center">
                             @if ($courses)
                                 @foreach ($courses as $course)
-                                    <div class="col-lg-4 col-md-4 wow fadeInUp p-3" data-wow-delay="0.1s">
-                                        <div class="course-item bg-light">
+                                    <div class="col-lg-4 col-md-4 wow w-auto fadeInUp p-3" data-wow-delay="0.1s">
+                                        <div class="course-item bg-light ">
                                             <div class="position-relative mb-4">
                                                 @if ($course->image)
                                                     <img class="img-fluid z-10" src="{{ asset($course->image) }}"
@@ -122,15 +122,19 @@
 
                                                 </div>
                                             </div>
-                                            <div class="text-center p-4 pb-0">
+                                            <div class="text-center  p-4 pb-0">
                                                 <h3 class="mb-0">{{ $course->price() }}</h3>
-                                                <div class="mb-3">
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small>(123)</small>
+                                                <div class="row mb-3">
+                                                    @if ($course->fullStars != null)
+                                                        @for ($i = 0; $i < 5; $i++)
+                                                            @if ($i <  $course->fullStars)
+                                                                <small class="fa fa-star text-primary"></small>
+                                                            @else
+                                                                <small class="fa fa-star text-secondary"></small>
+                                                            @endif
+                                                        @endfor
+                                                    @endif
+
                                                 </div>
                                                 <h5 class="mb-4">{{ $course->name }}</h5>
                                             </div>
@@ -139,9 +143,9 @@
                                                         class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
                                                 <small class="flex-fill text-center border-end py-2"><i
                                                         class="fa fa-clock text-primary me-2"></i>{{ $course->duration }}</small>
-                                                <small class="flex-fill text-center py-2"><i
+                                                {{-- <small class="flex-fill text-center py-2"><i
                                                         class="fa fa-user text-primary me-2"></i>30
-                                                    Students</small>
+                                                    Students</small> --}}
                                             </div>
 
 

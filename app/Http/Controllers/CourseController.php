@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\DB;
 
@@ -174,4 +175,47 @@ class CourseController extends Controller
         $course->save();
         return redirect()->route('courses.index')->with('success', 'Course updated successfully');
     }
+
+    // public function isActiveSLider(Request $request,  $id)
+    // {
+
+    //     $request->validate([
+    //         'is_best' => 'required',
+    //     ]);
+    //     $course = Course::findOrFail($id);
+    //     dd($course);
+    //     $course->is_best = $request->input('is_best');
+    //     $course->save();
+    //     return redirect()->route('courses.index')->with('success', 'Course updated successfully');
+    // }
+
+    public function isActiveSLider(Request $request, $id)
+{
+    // Validate the request data
+    $validator = Validator::make($request->all(), [
+        'is_best' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()
+            ->route('courses.index')
+            ->withInput()
+            ->withErrors($validator)
+            ->with('error', 'Validation failed');
+    }
+
+    try {
+        $course = Course::findOrFail($id);
+        // Update the course
+        $course->is_best = $request->input('is_best');
+        $course->save();
+        return redirect()
+            ->route('courses.index')
+            ->with('success', 'Course updated successfully');
+    } catch (ModelNotFoundException $e) {
+        return redirect()
+            ->route('courses.index')
+            ->with('error', 'Course not found');
+    }
+}
 }

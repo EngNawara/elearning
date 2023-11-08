@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rating', function (Blueprint $table) {
+        Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             $table->longText('content')->nullable();
-            $table->timestamp('data')->nullable();
+            $table->timestamp('date')->default(now());
             $table->integer('rate')->nullable();
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('user_id');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rating');
+        Schema::dropIfExists('ratings');
     }
 };

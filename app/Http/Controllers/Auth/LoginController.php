@@ -27,14 +27,14 @@ class LoginController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::HOME;
     protected function authenticated(Request $request, $user)
     {
-        if($user->role_id ==3) {
+        // if($user->role_id ==3) {
             return redirect()->route('home');
-        } else {
-            return redirect()-route('dashborad');
-        }
+        // } else {
+        //     return redirect()-route('dashborad');
+        // }
         // return redirect()->route('default');
     }
 

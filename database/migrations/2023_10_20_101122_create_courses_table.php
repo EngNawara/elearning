@@ -27,6 +27,7 @@ return new class extends Migration
             $table->enum('status', ['enabled', 'disabled', 'ongoing', 'cancelled', 'completed'])->default('enabled');
             $table->string('image')->nullable();
             $table->enum('is_popular', ['on' , 'off'])->default('off');
+            $table->enum('is_best', ['on' , 'off'])->default('off');
             $table->timestamps();
 
             // foreign key

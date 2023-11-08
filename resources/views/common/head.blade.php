@@ -19,7 +19,8 @@
 
     <!-- Libraries Stylesheet -->
     <link href="{{ asset ('assets/lib/animate/animate.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
