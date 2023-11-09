@@ -18,18 +18,18 @@
     <div class="container-fluid p-0 mb-5">
         <div class="owl-carousel header-carousel position-relative">
 
-            @if ($bestCoursesHome)
-                @foreach ($bestCoursesHome as $bestCourse)
+            @if ($homeSliders)
+                @foreach ($homeSliders as $homeSlider)
                     <div class="owl-carousel-item position-relative">
-                        <img class="img-fluid" src="{{ asset($bestCourse->image) }}" alt="{{ $bestCourse->title }}">
+                        <img class="img-fluid" src="{{ asset($homeSlider->image) }}" alt="{{ $homeSlider->title }}">
                         <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
                             style="background: rgba(24, 29, 56, .7);">
                             <div class="container">
                                 <div class="row justify-content-start">
                                     <div class="col-sm-10 col-lg-8">
-                                        <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Best Online
-                                            Courses</h5>
-                                        <h1 class="display-3 text-white animated slideInDown">{{ $bestCourse->title }}</h1>
+                                        {{-- <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Best Online
+                                            Courses</h5> --}}
+                                        <h1 class="display-3 text-white animated slideInDown">{{ $homeSlider->title }}</h1>
                                         {{-- <p class="fs-5 text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet
                                     sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea sanctus eirmod
                                     elitr.</p>
@@ -155,13 +155,13 @@
                         @if ($categoryHome)
                             @foreach ($categoryHome as $category)
                                 <div class="col-lg-6 col-md-12 wow zoomIn my-1" data-wow-delay="0.3s">
-                                    <a class="position-relative d-block overflow-hidden category-link" href="">
+                                    <a class="position-relative d-block overflow-hidden category-link" href="{{ route('Front.Category.show' , $category) }}">
                                         <div class="overlay"></div>
                                         <div class=" text-center position-absolute py-2 px-3 z-50 category-info">
                                             <h5 class="m-0 text-white">{{ $category->name }}</h5>
                                             <small class="text-primary"> Courses</small>
                                         </div>
-                                        <img class="img-fluid z-10" src="{{ asset($category->image) }}" alt="">
+                                        <img class="img-fluid z-10" src="{{ asset($category->image) }}" alt="" >
                                     </a>
                                 </div>
                             @endforeach
@@ -189,7 +189,7 @@
                                     <div class="position-relative mb-4">
                                         @if ($course->image)
                                             <img class="img-fluid z-10" src="{{ asset($course->image) }}"
-                                                alt="{{ $course->title }}" />
+                                                alt="{{ $course->title }}" style="height: 13rem;width: 158rem;" />
                                         @endif
                                         <div
                                             class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">

@@ -65,6 +65,14 @@
                     <p>Courses</p>
                 </a>
             </li>
+            @if(auth()->user()->role_id == 1)
+            <li class="@if ($activePage == 'courses') active @endif">
+                <a href="{{ route('slider.index') }}">
+                    <i class="now-ui-icons design_bullet-list-67"></i>
+                    <p>SLiders</p>
+                </a>
+            </li>
+            @endif
             {{-- @if (auht()->user()->role_id = 2) --}}
             {{-- <li class="@if ($activePage == 'maps') active @endif">
                 <a href="{{ route('usercours.index') }}">

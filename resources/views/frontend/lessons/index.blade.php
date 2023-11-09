@@ -101,12 +101,15 @@
                     <div class="row d-flex flex-row g-4 justify-content-center">
                         @if ($lessons)
                             @foreach ($lessons as $lesson)
+                            @if ($lesson->status != 'disable')
+
+
                                 <div class="col-lg-4 col-md-6 wow fadeInUp p-3" data-wow-delay="0.1s">
                                     <div class="course-item bg-light">
                                         <div class="position-relative mb-4">
                                             @if ($lesson->image)
                                                 <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
-                                                    alt="{{ $lesson->title }}" />
+                                                    alt="{{ $lesson->title }}" style="height: 13rem;width: 158rem;"/>
                                             @endif
                                             <div
                                                 class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
@@ -139,6 +142,7 @@
                                     </div> --}}
                                     </div>
                                 </div>
+                                @endif
                             @endforeach
                         @endif
                     </div>
@@ -146,6 +150,8 @@
             </div>
         </div>
         {{-- rating  course  --}}
+        @auth
+        @if ($completedLessonsCount == $totalLessonsCount)
         <div class="row">
             <div class="py-5">
                 <div class="container">
@@ -170,6 +176,9 @@
                 </div>
             </div>
         </div>
+        @endif
+        @endauth
+
 
 
         <div class="row ">
@@ -187,7 +196,7 @@
                                         <div class="position-relative mb-4">
                                             @if ($lesson->image)
                                                 <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
-                                                    alt="{{ $lesson->title }}" />
+                                                    alt="{{ $lesson->title }}" style="height: 13rem;width: 158rem;"/>
                                             @endif
                                             <div
                                                 class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">

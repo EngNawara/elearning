@@ -9,13 +9,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="page-banner-cont">
-                        <h2>@lang('Courses ')
-                            {{ request()->segment(1) == 'Category' ? '- ' . Str::replace('-', ' ', Str::ucfirst(request()->segment(2))) : '' }}
+                        <h2>
+                            {{ $category->name }}
                         </h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">@lang('Home')</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">@lang('Courses')</li>
+                                <li class="breadcrumb-item active" aria-current="page">@lang('category')</li>
                             </ol>
                         </nav>
                     </div> <!-- page banner cont -->

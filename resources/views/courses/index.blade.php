@@ -93,7 +93,7 @@
                                                         data-original-title="" title="">
                                                         <i class="now-ui-icons ui-2_settings-90"></i>
                                                     </a>
-                                                    <form action="{{ route('courses.destroy', $course->id) }}" method="POST"
+                                                    {{-- <form action="{{ route('courses.destroy', $course->id) }}" method="POST"
                                                         style="display: inline;">
                                                         @csrf
                                                         @method('DELETE')
@@ -101,7 +101,7 @@
                                                             onclick="return confirm('Are you sure you want to delete this category?')">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
-                                                    </form>
+                                                    </form> --}}
                                                 </td>
                                             @elseif (auth()->user()->role_id === 1)
                                                 <td>
