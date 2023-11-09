@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
+        $roles = Role::pluck('role')->all();
         return view('users.create', compact('roles'));
     }
 
@@ -44,12 +44,13 @@ class UserController extends Controller
             'role_id' => 'required',
         ]);
 
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-        $input['role_id'] = $request->role_id;
         // dd($input);
-        $user = User::create($input);
-
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role_id = $request->role_id + 1;
+        $user->save();
         return redirect()->route('user.index')
             ->with('success', 'User created successfully');
     }
@@ -57,7 +58,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::all();
+        $roles = Role::pluck('role')->all();
         return view('users.edit', compact('user', 'roles'));
     }
 
@@ -79,7 +80,7 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->update($input);
-        $user->role_id = $request->role_id;
+        $user->role_id = $request->role_id + 1;
 
         $user->save();
 

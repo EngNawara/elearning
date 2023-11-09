@@ -25,14 +25,16 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
         $category = new Category();
         $category->name = $request->name;
-        $fileName = time() . '.' . $request->image->extension();
-        $request->image->storeAs('public/images', $fileName);
-
-        $category->image = $fileName;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/Category'), $imageName);
+            $category->image = 'storage/Category/' . $imageName;
+        }
         $category->save();
 
         return redirect()->route('category.index')->with('success', 'Category Created Successfully');
@@ -60,10 +62,12 @@ class CategoryController extends Controller
 
         $category = Category::find($id);
         $category->name = $request->name;
-        $fileName = time() . '.' . $request->image->extension();
-        $request->image->storeAs('public/images', $fileName);
-
-        $category->image = $fileName;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/Category'), $imageName);
+            $category->image = 'storage/Category/' . $imageName;
+        }
         $category->save();
 
         return redirect()->route('category.index')->with('success', 'Category Created Successfully');
@@ -75,6 +79,18 @@ class CategoryController extends Controller
         $category->delete();
         // redirect to  the index page
         return redirect()->route('category.index')->with('success', "Category Deleted Successfully");
+    }
+
+    public function homecategory(Request $request,  $id)
+    {
+        //  dd($request->all());
+        $request->validate([
+            'is_active_in_home' => 'required',
+        ]);
+        $category = Category::findOrFail($id);
+        $category->is_active_in_home = $request->input('is_active_in_home');
+        $category->save();
+        return redirect()->route('category.index')->with('success', 'category updated successfully');
     }
 
     public function single($slug)
@@ -92,4 +108,6 @@ class CategoryController extends Controller
     // , function (Builder $query) use ($slug) {
     //     $query->whereSlug($slug);
     // }
+
+
 }

@@ -21,11 +21,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
 
-    public function viewDashboard()
-    {
-        return view('dashBorad');
+        return view('home');
     }
 }

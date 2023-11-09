@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\DB;
 
@@ -58,9 +59,9 @@ class CourseController extends Controller
                 $imageName = time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/Course'), $imageName);
                 $course->image = 'storage/Course/' . $imageName;
-                $course->teacher_id = $user->id;
             }
 
+            $course->teacher_id = $user->id;
             $course->save();
             DB::commit();
 
@@ -109,6 +110,7 @@ class CourseController extends Controller
     public function update(CourseRequest $request,  $id)
     {
         //start dataBase transaction
+        // dd($request->all());
         DB::beginTransaction();
         try {
             //find the course by its ID...
@@ -123,6 +125,9 @@ class CourseController extends Controller
                 $imageName = time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/Course'), $imageName);
                 $course->image = 'storage/Course/' . $imageName;
+            }
+            if ($request->has('is_popular')) {
+                $course->is_popular = $request->input('is_popular');
             }
             $course->save();
             DB::commit();
@@ -158,4 +163,59 @@ class CourseController extends Controller
 
         return redirect()->route('courses.index')->with('success', "Course deleted Successfully");
     }
+
+    public function updateIsPopular(Request $request,  $id)
+    {
+        //  dd($request->all());
+        $request->validate([
+            'is_popular' => 'required',
+        ]);
+        $course = Course::findOrFail($id);
+        $course->is_popular = $request->input('is_popular');
+        $course->save();
+        return redirect()->route('courses.index')->with('success', 'Course updated successfully');
+    }
+
+    // public function isActiveSLider(Request $request,  $id)
+    // {
+
+    //     $request->validate([
+    //         'is_best' => 'required',
+    //     ]);
+    //     $course = Course::findOrFail($id);
+    //     dd($course);
+    //     $course->is_best = $request->input('is_best');
+    //     $course->save();
+    //     return redirect()->route('courses.index')->with('success', 'Course updated successfully');
+    // }
+
+    public function isActiveSLider(Request $request, $id)
+{
+    // Validate the request data
+    $validator = Validator::make($request->all(), [
+        'is_best' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()
+            ->route('courses.index')
+            ->withInput()
+            ->withErrors($validator)
+            ->with('error', 'Validation failed');
+    }
+
+    try {
+        $course = Course::findOrFail($id);
+        // Update the course
+        $course->is_best = $request->input('is_best');
+        $course->save();
+        return redirect()
+            ->route('courses.index')
+            ->with('success', 'Course updated successfully');
+    } catch (ModelNotFoundException $e) {
+        return redirect()
+            ->route('courses.index')
+            ->with('error', 'Course not found');
+    }
+}
 }

@@ -36,6 +36,7 @@ class CourseRequest extends FormRequest
             'started_at' => 'required',
             'finished_at' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'is_popular'=>'nullable',
         ];
     }
 }

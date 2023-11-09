@@ -61,11 +61,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Role:</strong>
-                        <select name='role_id' class="form-control">
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->role }} </option>
-                            @endforeach
-                        </select>
+                        {!! Form::select('role_id', $roles,null, ['class' => 'form-control']) !!}
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">

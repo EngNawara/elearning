@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h2>Creat Course</h2>
+                            <h2>Create Course</h2>
                         </div>
                         <div class="pull-right">
                             <a class="btn btn-primary" href="{{ route('courses.index') }}"> Back</a>

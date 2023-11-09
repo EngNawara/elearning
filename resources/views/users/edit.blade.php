@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h2>Edit New User</h2>
+                            <h2>Edit User</h2>
                         </div>
                         <div class="pull-right">
                             <a class="btn btn-primary" href="{{ route('user.index') }}"> Back</a>
@@ -59,11 +59,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Role:</strong>
-                            <select name='role_id' class="form-control">
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}">{{ $role->role }} </option>
-                                @endforeach
-                            </select>
+                            {!! Form::select('role_id', $roles, old('role', $user->role_id - 1), ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">

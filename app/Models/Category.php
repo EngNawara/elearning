@@ -10,7 +10,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'status', 'image'];
+    protected $fillable = ['name', 'status', 'image', 'is_active_in_home'];
 
     public function courses()
     {

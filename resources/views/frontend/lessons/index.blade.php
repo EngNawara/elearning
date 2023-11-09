@@ -4,7 +4,7 @@
     <!--====== PAGE BANNER PART START ======-->
 
     <section id="page-banner" class="pt-105 pb-110 bg_cover" data-overlay="8"
-        style="background-image: url('{{ asset('jambasangsang/frontend/images/page-banner-2.jpg') }}')">
+        style="background-image: url('{{ asset('frontend/images/page-banner-2.jpg') }}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -46,50 +46,89 @@
                             </li>
                             <li class="nav-item">Showning 4 0f 24 Results</li>
                         </ul> <!-- nav -->
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
 
-                        <div class="courses-search float-right">
-                            <form action="#">
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                        @auth
+                            @php
+                                $user = auth()->user();
+                                $courseUser = App\Models\CourseUser::where('user_id', $user->id)
+                                    ->where('course_id', $course->id)
+                                    ->first();
+                            @endphp
+
+
+                            <div class="courses-search float-right">
+
+                                <form
+                                    action="{{ route('course.userscourse.unenrollUser', ['course_id' => $course->id, 'user_id' => auth()->user()->id]) }}"
+                                    method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end">
+                                        @if ($courseUser)
+                                            @if ($courseUser->enrollment_status == 'pending')
+                                                Unenroll
+                                            @else
+                                                {{ $courseUser->enrollment_status }}
+                                            @endif
+                                        @else
+                                            Join Now
+                                        @endif
+                                    </button>
+                                </form>
+                            </div>
+                        @endauth
+                        {{-- <form action="#">
                                 <input type="text" placeholder="Search">
                                 <button type="button"><i class="fa fa-search"></i></button>
-                            </form>
-                        </div> <!-- courses search -->
-                    </div> <!-- courses top search -->
-                </div>
-            </div> <!-- row -->
-            <div class="row ">
-                <div class="py-5 ">
-                    <div class="container ">
-                        <div class="row d-flex flex-row g-4 justify-content-center">
-                            @if ($lessons)
-                                @foreach ($lessons as $lesson)
-                                    <div class="col-lg-4 col-md-6 wow fadeInUp p-3" data-wow-delay="0.1s">
-                                        <div class="course-item bg-light">
-                                            <div class="position-relative mb-4">
-                                                @if ($lesson->image)
-                                                    <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
-                                                        alt="{{ $lesson->title }}" />
-                                                @endif
-                                                <div
-                                                    class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
-                                                    <a href="{{ route('Courses.lessons.index', $lesson->id) }}"
-                                                        class="flex-shrink-0 btn btn-sm btn-primary px-3 ">Read More</a>
-                                                    {{-- <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                            </form> --}}
+                    </div> <!-- courses search -->
+                </div> <!-- courses top search -->
+            </div>
+        </div> <!-- row -->
+        <div class="row ">
+            <div class="py-5 ">
+                <div class="container ">
+                    <div class="row d-flex flex-row g-4 justify-content-center">
+                        @if ($lessons)
+                            @foreach ($lessons as $lesson)
+                                <div class="col-lg-4 col-md-6 wow fadeInUp p-3" data-wow-delay="0.1s">
+                                    <div class="course-item bg-light">
+                                        <div class="position-relative mb-4">
+                                            @if ($lesson->image)
+                                                <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
+                                                    alt="{{ $lesson->title }}" />
+                                            @endif
+                                            <div
+                                                class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
+                                                <a href="{{ route('Courses.lessons.show', ['course' => $course->id, 'lesson' => $lesson->id]) }}"
+                                                    class="flex-shrink-0 btn btn-sm btn-primary px-3 ">Read More</a>
+                                                {{-- <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
                                                 style="border-radius: 0 30px 30px 0;">Join Now</a> --}}
-                                                </div>
                                             </div>
-                                            <div class="text-center p-4 pb-0">
-                                                {{-- <h3 class="mb-0">{{ $course->price() }}</h3> --}}
-                                                <div class="mb-3">
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small class="fa fa-star text-primary"></small>
-                                                    <small>(123)</small>
-                                                </div>
-                                                <h5 class="mb-4">{{ $lesson->title }}</h5>
-                                            </div>
-                                            {{-- <div class="d-flex border-top">
+                                        </div>
+                                        <div class="text-center p-4 pb-0">
+                                            {{-- <h3 class="mb-0">{{ $course->price() }}</h3> --}}
+                                            {{-- <div class="mb-3">
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+
+                                            </div> --}}
+                                            <h5 class="mb-4">{{ $lesson->title }}</h5>
+                                        </div>
+                                        {{-- <div class="d-flex border-top">
                                         <small class="flex-fill text-center border-end py-2"><i
                                                 class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
                                         <small class="flex-fill text-center border-end py-2"><i
@@ -98,15 +137,96 @@
                                                 class="fa fa-user text-primary me-2"></i>30
                                             Students</small>
                                     </div> --}}
-                                        </div>
                                     </div>
-                                @endforeach
-                            @endif
-                        </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
+        </div>
+        {{-- rating  course  --}}
+        <div class="row">
+            <div class="py-5">
+                <div class="container">
+                    <h3>You have completed this course. You can now rate this course:</h3>
+                    <div class="mb-3">
+                        <form action="{{ route('ratings.create') }}" method="POST" class="form-group col-5">
+                            @csrf
+                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                            <label for="rate">Rate this course:</label>
+                            <select name="rate" id="rate" class="form-control ">
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+                            <label for="content" class="col-form-label">Leave a review (optional):</label>
+                            <input type="text" placeholder="write  your opinon" name="content" id="content" rows="4" class="form-control form-text rounded-lg" />
+                            <button type="submit" class="btn btn-primary m-2 rounded-lg">Submit Rating</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+
+        <div class="row ">
+            <div class="py-5 ">
+
+                <div class="container ">
+                    <h2>@lang('Related Course ') Like {{ $course->name }} Course
+                        {{ request()->segment(1) == 'Category' ? '- ' . Str::replace('-', ' ', Str::ucfirst(request()->segment(2))) : '' }}
+                    </h2>
+                    <div class="row d-flex flex-row g-4 justify-content-center">
+                        @if ($lessons)
+                            @foreach ($lessons as $lesson)
+                                <div class="col-lg-4 col-md-6 wow fadeInUp p-3" data-wow-delay="0.1s">
+                                    <div class="course-item bg-light">
+                                        <div class="position-relative mb-4">
+                                            @if ($lesson->image)
+                                                <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
+                                                    alt="{{ $lesson->title }}" />
+                                            @endif
+                                            <div
+                                                class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
+                                                <a href="{{ route('Courses.lessons.index', $lesson->id) }}"
+                                                    class="flex-shrink-0 btn btn-sm btn-primary px-3 ">Read More</a>
+                                                {{-- <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                                    style="border-radius: 0 30px 30px 0;">Join Now</a> --}}
+                                            </div>
+                                        </div>
+                                        <div class="text-center p-4 pb-0">
+                                            {{-- <h3 class="mb-0">{{ $course->price() }}</h3> --}}
+                                            <div class="mb-3">
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small class="fa fa-star text-primary"></small>
+                                                <small>(123)</small>
+                                            </div>
+                                            <h5 class="mb-4">{{ $lesson->title }}</h5>
+                                        </div>
+                                        {{-- <div class="d-flex border-top">
+                            <small class="flex-fill text-center border-end py-2"><i
+                                    class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
+                            <small class="flex-fill text-center border-end py-2"><i
+                                    class="fa fa-clock text-primary me-2"></i>{{ $course->duration }}</small>
+                            <small class="flex-fill text-center py-2"><i
+                                    class="fa fa-user text-primary me-2"></i>30
+                                Students</small>
+                        </div> --}}
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- ================================================== --}}
         </div> <!-- tab content -->
         <div class="row">
             <div class="col-lg-12">
