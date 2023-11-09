@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,7 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'username'
+        'username',
     ];
 
     /**
@@ -49,5 +50,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Course::class, 'course_user')
             ->withPivot(['enrollment_status', 'enrollment_date']);
+    }
+
+    public function role()
+    {
+
+        return $this->belongsTo(Role::class, 'role_id', 'id');
+
     }
 }

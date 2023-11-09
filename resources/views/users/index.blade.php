@@ -41,7 +41,7 @@
                                             </td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $roles[$user->role_id - 1] }}</td>
+                                            <td>{{ $user->role->role }}</td>
                                             <td>{{ $user->created_at }}</td>
                                             <td class="text-right">
                                                 <a type="button" href="{{ route('user.edit', $user->id) }}" rel="tooltip"

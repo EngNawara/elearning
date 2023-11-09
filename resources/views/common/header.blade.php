@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse justify-content-between  id="navbarCollapse">
         <div class="navbar-nav  ms-auto p-4 p-lg-0">
             <div class="d-flex">
-                <a href="{{ route('home') }}" class="nav-item nav-link ">Home</a>
+                <a href="{{ url('/') }}" class="nav-item nav-link ">Home</a>
                 <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
                 <a href="{{ route('Courses.index') }}" class="nav-item nav-link">Courses</a>
                 {{-- <div class="nav-item dropdown">

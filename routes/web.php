@@ -3,6 +3,15 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseUserController;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\FrontEnd\CourseController as FrontEndCourseController;
+use App\Http\Controllers\FrontEnd\CourseUserController as FrontEndCourseUserController;
+use App\Http\Controllers\FrontEnd\LessonsController as FrontEndLessonsController;
+use App\Http\Controllers\LessonController;
+use App\Http\Controllers\LessonUserController;
+use App\Http\Controllers\RatingController;
+>>>>>>> main
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontEnd\CourseController as FrontEndCourseController;
 use App\Http\Controllers\FrontEnd\LessonsController as FrontEndLessonsController;
@@ -22,7 +31,10 @@ use App\Http\Controllers\LessonUserController;
 |
  */
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 Route::get('/', function () {return view('home');});
 Route::get('about', function () {return view('about');})->name('about');
 Route::get('contact', function () {return view('contact');})->name('contact');
@@ -55,6 +67,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
         Route::post('courses/{course_id}/userscourse/enroll', [CourseUserController::class, 'enrollUser'])->name('course.userscourse.enroll');
         Route::post('courses/{course_id}/userscourse/unenrollUser', [CourseUserController::class, 'unenrollUser'])->name('course.userscourse.unenrollUser');
         // ratings
+<<<<<<< HEAD
         Route::post('courses/rating' ,[RatingController::class ,'create'])->name('ratings.create');
         // show list from  user course
         Route::get('coursesUser/all',[FrontEndCourseUserController::class ,'index'])->name('frontend.listuserCourse');
@@ -62,6 +75,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
 });
 
 
+=======
+        Route::post('courses/rating', [RatingController::class, 'create'])->name('ratings.create');
+        // show list from  user course
+        Route::get('coursesUser/all', [FrontEndCourseUserController::class, 'index'])->name('frontend.listuserCourse');
+    });
+});
+
+>>>>>>> main
 // show without middle ware
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 
@@ -75,5 +96,9 @@ Route::get('front/register', function () {
 Route::get('Courses', [FrontEndCourseController::class, 'index'])->name('Courses.index');
 Route::get('Courses/{course}/lessons', [FrontEndLessonsController::class, 'index'])->name('Courses.lessons.index');
 Route::get('Courses/{course}/lessons/{lesson}', [FrontEndLessonsController::class, 'show'])->name('Courses.lessons.show');
+<<<<<<< HEAD
 Route::post('/lesson-users', [LessonUserController::class ,'store'])->name('lessonUser.store');
 
+=======
+Route::post('/lesson-users', [LessonUserController::class, 'store'])->name('lessonUser.store');
+>>>>>>> main

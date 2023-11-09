@@ -44,15 +44,15 @@
                                     <th>Name</th>
                                     <th>code</th>
                                     <th>Price</th>
-                                    <th>techer name</th>
-                                    <th>Category name</th>
-                                    <th>duration</th>
-                                    <th>status</th>
+                                    <th>Teacher</th>
+                                    <th>Category</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
                                     <th>Image</th>
-                                    <th>Course order</th>
+                                    <th> Orders</th>
                                     @auth
                                         @if (auth()->user()->role_id === 1)
-                                            <th class="disabled-sorting text-right">IS active In Home</th>
+                                            <th class="disabled-sorting text-right">IS active</th>
                                             <th class="disabled-sorting text-right">IS Best Course</th>
                                         @endif
 
@@ -72,7 +72,7 @@
                                         <td>
                                             {{ \App\Models\User::find($course->teacher_id)->name }} </td>
 
-                                        <td>{{ $course->category_id }}</td>
+                                        <td>{{ $course->category->name }}</td>
                                         <td>{{ $course->duration }}</td>
                                         <td>{{ $course->status }}</td>
                                         <td>

@@ -9,11 +9,12 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                    <h3>{{ $course->name }}</h3>
-                            <h2>Creat Lesson </h2>
+                            <h3>{{ $course->name }}</h3>
+                            <h2>Create Lesson </h2>
                         </div>
                         <div class="pull-right">
-                            <a class="btn btn-primary" href="{{ route('courses.lessons.index', ['course'=>$course->id]) }}"> Back</a>
+                            <a class="btn btn-primary" href="{{ route('courses.lessons.index', ['course' => $course->id]) }}">
+                                Back</a>
                         </div>
                     </div>
                 </div>
@@ -38,10 +39,10 @@
 
                 {!! Form::open([
                     'method' => 'POST',
-                    'route' =>[ 'courses.lessons.store', 'course'=>$course->id],
+                    'route' => ['courses.lessons.store', 'course' => $course->id],
                     'enctype' => 'multipart/form-data',
                 ]) !!}
-                 {!! Form::hidden('course_id', $course->id) !!}
+                {!! Form::hidden('course_id', $course->id) !!}
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="form-group">

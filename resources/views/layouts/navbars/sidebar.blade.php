@@ -10,8 +10,8 @@
     </div>
     <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
-            <li class="@if ($activePage == 'home') active @endif">
-                <a href="{{ route('home') }}">
+            <li class="@if ($activePage == 'dashborad') active @endif">
+                <a href="{{ route('dashborad') }}">
                     <i class="now-ui-icons design_app"></i>
                     <p>{{ __('Dashboard') }}</p>
                 </a>

@@ -30,7 +30,7 @@
 
                                     <th>Name</th>
                                     <th>Image</th>
-                                    <th>Creation date</th>
+
                                     @auth
                                         @if (auth()->user()->role_id === 1)
                                             <th class="disabled-sorting text-right">Actions</th>
@@ -52,7 +52,7 @@
                                                         style="max-width: 80px; border-radiu: 100px">
                                                 </span>
                                             </td>
-                                            <td>{{ $category->created_at }}</td>
+
                                             @auth
                                                 @if (auth()->user()->role_id === 1)
                                                     <td class="text-right">

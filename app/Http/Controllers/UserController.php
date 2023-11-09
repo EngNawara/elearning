@@ -44,12 +44,13 @@ class UserController extends Controller
             'role_id' => 'required',
         ]);
 
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-        $input['role_id'] = $request-> role_id + 1;
         // dd($input);
-        $user = User::create($input);
-
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role_id = $request->role_id + 1;
+        $user->save();
         return redirect()->route('user.index')
             ->with('success', 'User created successfully');
     }

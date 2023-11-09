@@ -127,7 +127,7 @@
                                                 <div class="row mb-3">
                                                     @if ($course->fullStars != null)
                                                         @for ($i = 0; $i < 5; $i++)
-                                                            @if ($i <  $course->fullStars)
+                                                            @if ($i < $course->fullStars)
                                                                 <small class="fa fa-star text-primary"></small>
                                                             @else
                                                                 <small class="fa fa-star text-secondary"></small>
@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="d-flex border-top">
                                                 <small class="flex-fill text-center border-end py-2"><i
-                                                        class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
+                                                        class="fa fa-user-tie text-primary me-2"></i>{{ $course->teacher->name }}</small>
                                                 <small class="flex-fill text-center border-end py-2"><i
                                                         class="fa fa-clock text-primary me-2"></i>{{ $course->duration }}</small>
                                                 {{-- <small class="flex-fill text-center py-2"><i
