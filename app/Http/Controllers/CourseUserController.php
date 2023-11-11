@@ -15,7 +15,7 @@ class CourseUserController extends Controller
     public function index($course_id)
     {
         //
-        $enrollmentStatuses = ['Enrolled', 'Pending', 'Completed', 'Dropped'];
+        $enrollmentStatuses = ['Accepted','rejected'];
 
         $courseUsers  = CourseUser::where('course_id', $course_id)->get();
         $course = Course::find($course_id);
@@ -61,20 +61,24 @@ class CourseUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course , string $id)
+    public function update(Request $request,  $courseId, $courseUserId)
     {
             $request->validate(['enrollment_status'=>'required']);
          if(auth()->user()->role_id === 2) {
+            $courseUser = CourseUser::findOrFail($courseUserId);
+            $course = Course::find($courseUser->course_id);
 
-            $courseUser = CourseUser::find($id);
-            $course = Course::find($courseUser->id);
+            // dd($course);
         if ($course && $course->teacher_id === auth()->user()->id ){
                 // dd($courseUser);
                 $courseUser->update(['enrollment_status' => $request->input('enrollment_status')]);
             return redirect()->back()->with('success' , ' The enrollment status updatedm successfuly');
             }else{
                 return  redirect()->back()->with('error' , "you don't have any permation to do this");
-            }}
+            }
+
+
+        }
             else {
                 // Redirect back with an error message for users with roles other than 2
             return redirect()->back()->with('error', 'You do not have permission to do this');
@@ -106,12 +110,13 @@ class CourseUserController extends Controller
     {
         $user_id = $request->input('user_id');
         $course_id = $request->route('course_id');
-
+        // dd('test');
         // Retrieve the user and course models
         $user = User::find($user_id);
         $course = Course::find($course_id);
 
         if ($user && $course) {
+
             // Check if the user is not already enrolled in the course
             if (!$user->courses->contains($course)) {
                 // Enroll the user in the course with additional pivot information

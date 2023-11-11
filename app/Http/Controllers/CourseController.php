@@ -168,10 +168,17 @@ class CourseController extends Controller
     {
         //  dd($request->all());
         $request->validate([
-            'is_popular' => 'required',
+            'is_popular' => 'nullable',
         ]);
         $course = Course::findOrFail($id);
-        $course->is_popular = $request->input('is_popular');
+
+        if($request->has('is_popular')){
+            $course->is_popular = $request->input('is_popular');
+
+        }else{
+            $course->is_popular = 'off';
+        }
+
         $course->save();
         return redirect()->route('courses.index')->with('success', 'Course updated successfully');
     }

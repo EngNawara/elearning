@@ -53,7 +53,7 @@
                                     @auth
                                         @if (auth()->user()->role_id === 1)
                                             <th class="disabled-sorting text-right">IS active</th>
-                                            <th class="disabled-sorting text-right">IS Best Course</th>
+                                            {{-- <th class="disabled-sorting text-right">IS Best Course</th> --}}
                                         @endif
 
                                     @endauth
@@ -112,11 +112,11 @@
                                                         @method('PUT')
                                                         <input type="checkbox" name="is_popular" onchange="this.form.submit()"
                                                             onclick="this.form.submit()"
-                                                            {{ $course->is_popular == 'on' ? 'checked' : '' }}>
+                                                            {{ $course->is_popular === 'on' ? 'checked' : '' }}>
                                                         Mark as Popular
                                                     </form>
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     <form action="{{ route('courses.isActiveSLider', $course->id) }}"
                                                         method="POST" style="display: inline;" accept-charset="UTF-8"
                                                         enctype="multipart/form-data">
@@ -127,7 +127,7 @@
                                                             {{ $course->is_best == 'on' ? 'checked' : '' }}>
                                                         Mark as best
                                                     </form>
-                                                </td>
+                                                </td> --}}
                                             @endif
                                         @endauth
 

@@ -39,7 +39,6 @@
                         class="btn btn-primary  py-4 px-lg-5 d-none d-lg-block">Dashborad </a>
                 </div>
             @endif
-
             <div class="nav-item dropdown ">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown">
                     <i class="fas fa-user"></i>
@@ -49,7 +48,10 @@
                 </form>
                 <div class="dropdown-menu dropdown-menu-right fade-down" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('frontend.profile.edit') }}">{{ __('My profile') }}</a>
-                    <a class="dropdown-item" href="{{ route('frontend.listuserCourse') }}">{{ __('My Course') }}</a>
+                    @if (auth()->user()->role_id == 3)
+                        <a class="dropdown-item" href="{{ route('frontend.listuserCourse') }}">{{ __('My Course') }}</a>
+                    @endif
+
                     <a class="dropdown-item" href="{{ route('frontend.profile.edit') }}">{{ __('Edit profile') }}</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();

@@ -27,7 +27,9 @@
                           <td>  {{ \App\Models\User::find($course->teacher_id)->name }}</td>
                             <td>{{ $course->duration }}</td>
                             <td>{{ $courseUsers[$key]->enrollment_date }}</td>
+                            @if($courseUsers[$key]->enrollment_status === 'Accepted')
                             <td><a href="{{ route('Courses.lessons.index', $course->id) }}" class="btn btn-primary">Show Course</a></td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

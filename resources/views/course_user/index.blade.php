@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'courses', 'titlePage' => __('Courses'), 'namePage' => 'Courses', 'activePage' => 'courses'])
+@extends('layouts.app', ['activePage' => 'courses', 'titlePage' => __('Courses_user'), 'namePage' => 'Courses_user', 'activePage' => 'course_user'])
 
 @section('content')
     <div class="panel-header panel-header-sm"></div>
@@ -22,11 +22,11 @@
                                     <th>User Name</th>
                                     <th>Enrollment Status</th>
                                     <th>Enrollment Date</th>
-                                    @auth
+                                    {{-- @auth
                                         @if (auth()->user()->role_id === 2)
                                             <th></th>
                                         @endif
-                                    @endauth
+                                    @endauth --}}
                                 </tr>
                             </thead>
                             @foreach ($courseUsers as $courseUser)
@@ -47,8 +47,9 @@
                                     <td>
                                         <form id="enrollment_status_form" class="form-group" method="POST" action="{{ route('userscourse.update', [$course->id, $courseUser->id]) }}">
                                             @csrf
-                                            @method('PATCH')
+                                            @method('PUT')
                                             <select name="enrollment_status" class="form-control" id="enrollment_status" onchange="submitForm()">
+                                                <option disabled selected>Select Status</option>
                                                 @foreach($enrollmentStatuses as $status)
                                                     <option value="{{ $status }}" @if($status === $courseUser->enrollment_status) selected @endif>{{ $status }}</option>
                                                 @endforeach
@@ -64,7 +65,7 @@
                                     </td>
                                     <td>{{ $courseUser->enrollment_date }}</td>
 
-                                    @auth
+                                    {{-- @auth
                                         @if (auth()->user()->role_id === 2)
                                             <td class="text-right">
                                                 {{-- <a type="button" href="{{ route('userscourse.edit', $courseUser) }}" rel="tooltip"
@@ -72,7 +73,7 @@
                                                     title="">
                                                     <i class="now-ui-icons ui-2_settings-90"></i>
                                                 </a> --}}
-                                                <form
+                                                {{-- <form
                                                     action="{{ route('userscourse.destroy', ['course_id' => $course->id, 'userscourse' => $courseUser->id]) }}"
                                                     method="POST" style="display: inline;">
                                                     @csrf
@@ -83,7 +84,7 @@
                                                     </button>
                                                 </form>
                                         @endif
-                                    @endauth
+                                    @endauth --}}
 
                                 </tbody>
                             @endforeach

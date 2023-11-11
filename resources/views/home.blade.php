@@ -155,13 +155,14 @@
                         @if ($categoryHome)
                             @foreach ($categoryHome as $category)
                                 <div class="col-lg-6 col-md-12 wow zoomIn my-1" data-wow-delay="0.3s">
-                                    <a class="position-relative d-block overflow-hidden category-link" href="{{ route('Front.Category.show' , $category) }}">
+                                    <a class="position-relative d-block overflow-hidden category-link"
+                                        href="{{ route('Front.Category.show', $category) }}">
                                         <div class="overlay"></div>
                                         <div class=" text-center position-absolute py-2 px-3 z-50 category-info">
                                             <h5 class="m-0 text-white">{{ $category->name }}</h5>
                                             <small class="text-primary"> Courses</small>
                                         </div>
-                                        <img class="img-fluid z-10" src="{{ asset($category->image) }}" alt="" >
+                                        <img class="img-fluid z-10" src="{{ asset($category->image) }}" alt="">
                                     </a>
                                 </div>
                             @endforeach
@@ -196,8 +197,27 @@
                                             <a href="{{ route('Courses.lessons.index', $course->id) }}"
                                                 class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
                                                 style="border-radius: 30px 0 0 30px;">Read More</a>
-                                            <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
-                                                style="border-radius: 0 30px 30px 0;">Join Now</a>
+                                            @if (auth()->check())
+                                                {{-- Check if the user is authenticated --}}
+                                                {{-- <form
+                                                    action="{{ route('course.userscourse.enroll', ['course_id' => $course->id, 'user_id' => auth()->user()->id]) }}"
+                                                    method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                                                        @if ($courseUser && $courseUser->enrollment_status) disabled @endif>
+                                                        @if ($courseUser)
+                                                            {{ $courseUser->enrollment_status }}
+                                                        @else
+                                                            Join Now
+                                                        @endif
+                                                    </button>
+                                                </form> --}}
+                                            @else
+                                                <a href="{{ route('loginFront') }}"
+                                                    class="btn btn-sm btn-primary px-3 border-end">Login to
+                                                    Enroll</a>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="text-center p-4 pb-0">

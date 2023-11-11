@@ -85,10 +85,15 @@ class CategoryController extends Controller
     {
         //  dd($request->all());
         $request->validate([
-            'is_active_in_home' => 'required',
+            'is_active_in_home' => 'nullable',
         ]);
         $category = Category::findOrFail($id);
-        $category->is_active_in_home = $request->input('is_active_in_home');
+
+        if($request->has('is_active_in_home')){
+            $category->is_active_in_home = $request->input('is_active_in_home');
+         }else{
+            $category->is_active_in_home = 'off';
+        }
         $category->save();
         return redirect()->route('category.index')->with('success', 'category updated successfully');
     }

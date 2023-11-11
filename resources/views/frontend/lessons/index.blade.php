@@ -68,25 +68,29 @@
 
 
                             <div class="courses-search float-right">
-
+                                @if (auth()->check())
+                                {{-- Check if the user is authenticated --}}
                                 <form
-                                    action="{{ route('course.userscourse.unenrollUser', ['course_id' => $course->id, 'user_id' => auth()->user()->id]) }}"
+                                    action="{{ route('course.userscourse.enroll', ['course_id' => $course->id, 'user_id' => auth()->user()->id]) }}"
                                     method="POST" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end">
+                                    <button type="submit"
+                                        class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                                        @if ($courseUser && $courseUser->enrollment_status) disabled @endif>
                                         @if ($courseUser)
-                                            @if ($courseUser->enrollment_status == 'pending')
-                                                Unenroll
-                                            @else
-                                                {{ $courseUser->enrollment_status }}
-                                            @endif
+                                            {{ $courseUser->enrollment_status }}
                                         @else
                                             Join Now
                                         @endif
                                     </button>
                                 </form>
+                            @else
+                                <a href="{{ route('loginFront') }}"
+                                    class="btn btn-sm btn-primary px-3 border-end">Login to
+                                    Enroll</a>
+                            @endif
                             </div>
-                        @endauth
+                            @endauth
                         {{-- <form action="#">
                                 <input type="text" placeholder="Search">
                                 <button type="button"><i class="fa fa-search"></i></button>
