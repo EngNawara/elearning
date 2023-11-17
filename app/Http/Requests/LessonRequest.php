@@ -26,6 +26,7 @@ class LessonRequest extends FormRequest
             'title' => 'required',
             'content' => 'required',
             'course_id' => 'required',
+            'lesson_link'=>'required',
             'status' => 'required',
             'image' => 'nullable',
         ];

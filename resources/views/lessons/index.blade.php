@@ -29,6 +29,7 @@
                                     <th>Title</th>
                                     <th>content</th>
                                     <th>course_id</th>
+                                    <th>Lesson Link</th>
                                     <th>status</th>
                                     <th>Image</th>
                                     @auth
@@ -45,6 +46,7 @@
                                         <td>{{ $lesson->title }}</td>
                                         <td>{{ $lesson->content }}</td>
                                         <td>{{ $lesson->course_id }}</td>
+                                        <td>{{ $lesson->lesson_link }}</td>
                                         <td>{{ $lesson->status }}</td>
                                         <td>
                                             <span class="avatar avatar-sm rounded-circle">

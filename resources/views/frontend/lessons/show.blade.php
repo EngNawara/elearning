@@ -71,6 +71,37 @@
                             </div>
                         @endif
                     </div> <!-- courses top search -->
+                    <div class="courses-search float-right">
+                        @if (auth()->check())
+                            @php
+                                $user = auth()->user();
+                                $courseUser = App\Models\CourseUser::where('user_id', $user->id)
+                                    ->where('course_id', $course->id)
+                                    ->first();
+                            @endphp
+
+                            {{-- Check if the user is authenticated --}}
+                            <form
+                                action="{{ route('course.userscourse.enroll', ['course_id' => $course->id, 'user_id' => auth()->user()->id]) }}"
+                                method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                                    @if ($courseUser && $courseUser->enrollment_status) disabled @endif>
+                                    @if ($courseUser)
+                                        {{ $courseUser->enrollment_status }}
+                                    @else
+                                        Join Now
+                                    @endif
+                                </button>
+                            </form>
+                        @else
+                            <a href="{{ route('loginFront') }}" class="btn btn-sm btn-primary px-3 border-end">Login to
+                                Enroll</a>
+                        @endif
+
+
+                    </div>
+
                 </div>
             </div> <!-- row -->
             <div class="row ">
@@ -92,42 +123,54 @@
                                                     {{ \App\Models\User::find($course->teacher_id)->name }}
 
                                                 </p>
+
+                                                {{-- if (auth()->user()->role_id === 1) --}}
+                                                @auth
+                                                    @if ($courseUser && $courseUser->enrollment_status === 'Accepted')
+                                                        @if ($course->id && $lesson->id)
+                                                            @auth
+                                                                @php
+                                                                    $courseUser = \App\Models\CourseUser::where('course_id', $course->id)
+                                                                        ->where('user_id', auth()->user()->id)
+                                                                        ->first();
+                                                                    $lessonUser = \App\Models\LessonUser::where('course_user_id', $courseUser->id)
+                                                                        ->where('lesson_id', $lesson->id)
+                                                                        ->first();
+                                                                @endphp
+
+
+                                                                <P><a href=" {{ $lesson->lesson_link }}" class="mb-3"
+                                                                        target="blank">Link Lesson</a></P>
+                                                                @if ($lessonUser)
+                                                                    This lessons Is Compleated
+                                                                @else
+                                                                    <div>
+                                                                        <form action="{{ route('lessonUser.store') }}"
+                                                                            method="POST" style="display: inline;"
+                                                                            accept-charset="UTF-8" enctype="multipart/form-data">
+                                                                            @csrf
+
+                                                                            <!-- Hidden input fields to pass lesson_id and course_user_id -->
+                                                                            <input type="hidden" name="lesson_id"
+                                                                                value="{{ $lesson->id }}">
+                                                                            <input type="hidden" name="course_user_id"
+                                                                                value="{{ $courseUser->id }}">
+                                                                            <input type="checkbox" name="is_best"
+                                                                                onchange="this.form.submit()"
+                                                                                onclick="this.form.submit()">
+                                                                            Completed
+                                                                        </form>
+                                                                    </div>
+                                                                @endif
+                                                            @endauth
+                                                        @else
+                                                            <!-- Handle the case where $course->id or $lesson->id is missing -->
+                                                        @endif
+                                                    @endif
+                                                @endauth
+
+
                                             </div>
-                                            {{-- if (auth()->user()->role_id === 1) --}}
-                                            @if ($course->id && $lesson->id)
-                                                @php
-                                                    $courseUser = \App\Models\CourseUser::where('course_id', $course->id)
-                                                        ->where('user_id', auth()->user()->id)
-                                                        ->first();
-                                                    $lessonUser = \App\Models\LessonUser::where('course_user_id', $courseUser->id)
-                                                        ->where('lesson_id', $lesson->id)
-                                                        ->first();
-                                                @endphp
-
-                                                @if ($lessonUser)
-                                                    This lessons Is Compleated
-                                                @else
-                                                    <div>
-                                                        <form action="{{ route('lessonUser.store') }}" method="POST"
-                                                            style="display: inline;" accept-charset="UTF-8"
-                                                            enctype="multipart/form-data">
-                                                            @csrf
-
-                                                            <!-- Hidden input fields to pass lesson_id and course_user_id -->
-                                                            <input type="hidden" name="lesson_id"
-                                                                value="{{ $lesson->id }}">
-                                                            <input type="hidden" name="course_user_id"
-                                                                value="{{ $courseUser->id }}">
-                                                            <input type="checkbox" name="is_best"
-                                                                onchange="this.form.submit()" onclick="this.form.submit()">
-                                                            Completed
-                                                        </form>
-                                                    </div>
-                                                @endif
-                                            @else
-                                                <!-- Handle the case where $course->id or $lesson->id is missing -->
-                                            @endif
-
 
 
                                         </div>

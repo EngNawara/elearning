@@ -25,7 +25,7 @@ class Course extends Model
                             'started_at',
                             'finished_at',
                             'image' ,
-                            'is_popular',
+                            // 'is_popular',
                             'is_best'];
 
     protected $casts = ['started_at' => 'datetime', 'finished_at' => 'datetime'];

@@ -10,7 +10,7 @@ class Lesson extends Model
 {
     // use RendersContent;
 
-    protected $fillable = ['title', 'content', 'course_id', 'status', 'image'];
+protected $fillable = ['title', 'content','lesson_link', 'course_id', 'status', 'image'];
 
     public function course(): BelongsTo
     {

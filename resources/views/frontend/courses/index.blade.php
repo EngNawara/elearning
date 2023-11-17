@@ -96,11 +96,12 @@
                                                 <div
                                                     class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
 
-                                                    @if (auth()->check())
-                                                    @if ($courseUser && $courseUser->enrollment_status === 'Accepted' )
                                                     <a href="{{ route('Courses.lessons.index', $course->id) }}"
                                                         class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
                                                         style="border-radius: 30px 0 0 30px;">Read More</a>
+                                                    @if (auth()->check())
+                                                    @if ($courseUser && $courseUser->enrollment_status === 'Accepted' )
+
                                                         @endif
                                                         {{-- Check if the user is authenticated --}}
                                                         <form
@@ -108,7 +109,7 @@
                                                             method="POST" style="display: inline;">
                                                             @csrf
                                                             <button type="submit"
-                                                                class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                                                                class="flex-shrink-0 btn btn-sm btn-primary px-3 border-start"
                                                                 @if ($courseUser && $courseUser->enrollment_status) disabled @endif>
                                                                 @if ($courseUser)
                                                                     {{ $courseUser->enrollment_status }}

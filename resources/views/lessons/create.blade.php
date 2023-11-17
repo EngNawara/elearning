@@ -58,6 +58,14 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <strong>lesson link:</strong>
+                            {!! Form::url('lesson_link', null, ['placeholder' => 'Enter lesson link', 'class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-4">
                         <div class="form-group">
                             <strong>Status:</strong>

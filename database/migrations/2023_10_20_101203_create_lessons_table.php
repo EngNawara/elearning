@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->longText('content');
             $table->unsignedBigInteger('course_id');
+            $table->string('lesson_link')->nullable();
             $table->enum('status', ['enabled', 'disable'])->default('enabled');
             $table->string('image')->nullable();
             $table->timestamps();
