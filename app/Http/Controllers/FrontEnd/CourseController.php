@@ -15,7 +15,7 @@ class CourseController extends Controller
 
     {
 
-        $courses = Course::where('status', 'enabled')->get();
+        $courses = Course::where('status', '!=', 'disable')->get();
         $ratingController  = new RatingController();
 
         foreach ($courses as $course) {

@@ -52,6 +52,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
         Route::put('courses/{course}/update-is-popular', [CourseController::class, 'updateIsPopular'])->name('courses.updateIsPopular');
         Route::put('courses/{course}/update-is-best-course', [CourseController::class, 'isActiveSLider'])->name('courses.isActiveSLider');
         Route::put('category/{category}/homecategory', [CategoryController::class, 'homecategory'])->name('category.homecategory');
+        // show list from userCoure the status accepted
+        Route::get('/courses/{course_id}/accpted', [CourseUserController::class, 'courseComplate'])->name('course.accpted');
+        // show list from userCoure the status reject
+        Route::get('/courses/{course_id}/reject', [CourseUserController::class, 'courseRejected'])->name('course.reject');
 
     });
     // enroll & unenrollUser
@@ -65,6 +69,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
     Route::post('courses/rating', [RatingController::class, 'create'])->name('ratings.create');
     // show list from  user course
     Route::get('coursesUser/all', [FrontEndCourseUserController::class, 'index'])->name('frontend.listuserCourse');
+
 });
 
 // show without middle ware
