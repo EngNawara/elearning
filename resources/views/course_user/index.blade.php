@@ -8,9 +8,17 @@
                 <div class="card">
                     <div class="card-header">
 
-                        <h4 class="card-title">Order</h4>
-                        <div class="col-12 mt-2">
+                        <h4 class="card-title">Course Pendding</h4>
+                        <div class="row">
+                            <div class="col-6 mt-2">
+                                <a href="{{ route('course.accpted' ,$course->id ) }}" class="btn btn-success"> Show Accepted Order</a>
+                            </div>
+
+                            <div class="col-6 mt-2">
+                                <a href="{{ route('course.reject' ,$course->id ) }}" class="btn btn-success"> Show Rejected Order</a>
+                            </div>
                         </div>
+
                     </div>
                     <div class="card-body">
                         <div class="toolbar">

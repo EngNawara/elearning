@@ -37,8 +37,6 @@
         @else
             <p>No courses found for the currently authenticated user.</p>
         @endif
-
         </div>
-
     </div>
 @endsection

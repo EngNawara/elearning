@@ -17,7 +17,7 @@ class CourseUserController extends Controller
         //
         $enrollmentStatuses = ['Accepted','rejected'];
 
-        $courseUsers  = CourseUser::where('course_id', $course_id)->get();
+        $courseUsers  = CourseUser::where('course_id', $course_id)->where('enrollment_status','pending')->get();
         $course = Course::find($course_id);
         if (!$courseUsers) {
             return view('error', ['message' => 'Course not found']);
@@ -26,12 +26,35 @@ class CourseUserController extends Controller
         return view('course_user.index', compact('course','users','courseUsers' ,'enrollmentStatuses'));
     }
 
+// show completed course
+    public  function courseComplate($course_id){
+    $courseUsers  = CourseUser::where('course_id', $course_id)->where('enrollment_status','Accepted')->get();
+        $course = Course::find($course_id);
+        if (!$courseUsers) {
+            return view('error', ['message' => 'Course not found']);
+        }
+        $users = $courseUsers->pluck('user');
+        return view('course_user.courseComplate', compact('course','users','courseUsers' ));
+    }
+
+    public  function courseRejected($course_id){
+        $courseUsers  = CourseUser::where('course_id', $course_id)->where('enrollment_status','rejected')->get();
+            $course = Course::find($course_id);
+            if (!$courseUsers) {
+                return view('error', ['message' => 'Course not found']);
+            }
+            $users = $courseUsers->pluck('user');
+            return view('course_user.courseRejectd', compact('course','users','courseUsers' ));
+        }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         //
+
+
     }
 
     /**
