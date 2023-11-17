@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Lesson; // Import CourseUser model LessonUserController
 use App\Models\LessonUser;
-use App\Services\CollaborativeRecommender;
 use Illuminate\Support\Facades\Auth;
 
 // Import Auth facade to access the authenticated user
@@ -30,16 +29,16 @@ class LessonsController extends Controller
 
     public function show(Course $course, Lesson $lesson)
     {
-        $collab_engine = new CollaborativeRecommender;
+        /*  $collab_engine = new CollaborativeRecommender;
         //return array key value where key = course id and value = score
         $collab_suggestions = $collab_engine->suggestCourseFor($course);
         $collab_courses = [];
 
         //create array with Course models
         foreach ($collab_suggestions as $course_id => $score) {
-            $collab_suggested_course = Course::find($course_id);
+        $collab_suggested_course = Course::find($course_id);
 
-            $collab_courses[] = $collab_suggested_course; //append course to array
+        $collab_courses[] = $collab_suggested_course; //append course to array
         }
 
         ini_set('memory_limit', '1024M'); //TO-DO: FIND A WAY TO USE LESS MEMORY AND REMOVE THIS
@@ -51,11 +50,11 @@ class LessonsController extends Controller
 
         //create array with Course models
         foreach ($content_suggestions as $course_id => $score) {
-            $content_suggested_course = Course::find($course_id);
+        $content_suggested_course = Course::find($course_id);
 
-            $content_courses[] = $content_suggested_course; //append course to array
+        $content_courses[] = $content_suggested_course; //append course to array
         }
-
+         */
         return view('frontend.lessons.show', compact('course', 'lesson')); //'collab_suggestions', 'collab_courses', 'content_suggestions', 'content_courses'
     }
 }
