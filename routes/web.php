@@ -3,13 +3,14 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseUserController;
+use App\Http\Controllers\FrontEnd\CategoryController as FrontEndCategoryController;
 use App\Http\Controllers\FrontEnd\CourseController as FrontEndCourseController;
 use App\Http\Controllers\FrontEnd\CourseUserController as FrontEndCourseUserController;
 use App\Http\Controllers\FrontEnd\LessonsController as FrontEndLessonsController;
-use App\Http\Controllers\FrontEnd\CategoryController as FrontEndCategoryController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LessonUserController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,16 +55,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashborad'], function () {
 
     });
     // enroll & unenrollUser
-        Route::post('courses/{course_id}/userscourse/enroll', [CourseUserController::class, 'enrollUser'])->name('course.userscourse.enroll');
-        Route::post('courses/{course_id}/userscourse/unenrollUser', [CourseUserController::class, 'unenrollUser'])->name('course.userscourse.unenrollUser');
+    Route::post('courses/{course_id}/userscourse/enroll', [CourseUserController::class, 'enrollUser'])->name('course.userscourse.enroll');
+    Route::post('courses/{course_id}/userscourse/unenrollUser', [CourseUserController::class, 'unenrollUser'])->name('course.userscourse.unenrollUser');
 
-        // edit profile for user (student)
-        Route::get('front/profile', ['as' => 'frontend.profile.edit', 'uses' => 'App\Http\Controllers\FrontEnd\ProfileFrontController@edit']);
-        Route::put('front/profile', ['as' => 'frontend.profile.edit', 'uses' => 'App\Http\Controllers\FrontEnd\ProfileFrontController@update']);
-        // ratings
-        Route::post('courses/rating', [RatingController::class, 'create'])->name('ratings.create');
-        // show list from  user course
-        Route::get('coursesUser/all', [FrontEndCourseUserController::class, 'index'])->name('frontend.listuserCourse');
+    // edit profile for user (student)
+    Route::get('front/profile', ['as' => 'frontend.profile.edit', 'uses' => 'App\Http\Controllers\FrontEnd\ProfileFrontController@edit']);
+    Route::put('front/profile', ['as' => 'frontend.profile.edit', 'uses' => 'App\Http\Controllers\FrontEnd\ProfileFrontController@update']);
+    // ratings
+    Route::post('courses/rating', [RatingController::class, 'create'])->name('ratings.create');
+    // show list from  user course
+    Route::get('coursesUser/all', [FrontEndCourseUserController::class, 'index'])->name('frontend.listuserCourse');
 });
 
 // show without middle ware
@@ -84,3 +85,5 @@ Route::post('/lesson-users', [LessonUserController::class, 'store'])->name('less
 Route::get('Category', [FrontEndCategoryController::class, 'index'])->name('Front.Category.index');
 Route::get('Category/{category}', [FrontEndCategoryController::class, 'show'])->name('Front.Category.show');
 
+Route::get('/recommendations/{course_id}', [RecommendationController::class, 'generateRecommendations']);
+Route::get('/similarity', [RecommendationController::class, 'similarityByRatings']);

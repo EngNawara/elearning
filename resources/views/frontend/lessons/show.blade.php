@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="page-banner-cont">
-                        <h2>{{ $lesson->title }} leson in {{ $course->name }} Course
+                        <h2>{{ $lesson->title }} lesson in {{ $course->name }} Course
                         </h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">

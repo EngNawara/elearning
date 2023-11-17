@@ -69,28 +69,26 @@
 
                             <div class="courses-search float-right">
                                 @if (auth()->check())
-                                {{-- Check if the user is authenticated --}}
-                                <form
-                                    action="{{ route('course.userscourse.enroll', ['course_id' => $course->id, 'user_id' => auth()->user()->id]) }}"
-                                    method="POST" style="display: inline;">
-                                    @csrf
-                                    <button type="submit"
-                                        class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
-                                        @if ($courseUser && $courseUser->enrollment_status) disabled @endif>
-                                        @if ($courseUser)
-                                            {{ $courseUser->enrollment_status }}
-                                        @else
-                                            Join Now
-                                        @endif
-                                    </button>
-                                </form>
-                            @else
-                                <a href="{{ route('loginFront') }}"
-                                    class="btn btn-sm btn-primary px-3 border-end">Login to
-                                    Enroll</a>
-                            @endif
+                                    {{-- Check if the user is authenticated --}}
+                                    <form
+                                        action="{{ route('course.userscourse.enroll', ['course_id' => $course->id, 'user_id' => auth()->user()->id]) }}"
+                                        method="POST" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                                            @if ($courseUser && $courseUser->enrollment_status) disabled @endif>
+                                            @if ($courseUser)
+                                                {{ $courseUser->enrollment_status }}
+                                            @else
+                                                Join Now
+                                            @endif
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('loginFront') }}" class="btn btn-sm btn-primary px-3 border-end">Login to
+                                        Enroll</a>
+                                @endif
                             </div>
-                            @endauth
+                        @endauth
                         {{-- <form action="#">
                                 <input type="text" placeholder="Search">
                                 <button type="button"><i class="fa fa-search"></i></button>
@@ -105,27 +103,25 @@
                     <div class="row d-flex flex-row g-4 justify-content-center">
                         @if ($lessons)
                             @foreach ($lessons as $lesson)
-                            @if ($lesson->status != 'disable')
-
-
-                                <div class="col-lg-4 col-md-6 wow fadeInUp p-3" data-wow-delay="0.1s">
-                                    <div class="course-item bg-light">
-                                        <div class="position-relative mb-4">
-                                            @if ($lesson->image)
-                                                <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
-                                                    alt="{{ $lesson->title }}" style="height: 13rem;width: 158rem;"/>
-                                            @endif
-                                            <div
-                                                class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
-                                                <a href="{{ route('Courses.lessons.show', ['course' => $course->id, 'lesson' => $lesson->id]) }}"
-                                                    class="flex-shrink-0 btn btn-sm btn-primary px-3 ">Read More</a>
-                                                {{-- <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                                @if ($lesson->status != 'disable')
+                                    <div class="col-lg-4 col-md-6 wow fadeInUp p-3" data-wow-delay="0.1s">
+                                        <div class="course-item bg-light">
+                                            <div class="position-relative mb-4">
+                                                @if ($lesson->image)
+                                                    <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
+                                                        alt="{{ $lesson->title }}" style="height: 13rem;width: 158rem;" />
+                                                @endif
+                                                <div
+                                                    class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
+                                                    <a href="{{ route('Courses.lessons.show', ['course' => $course, 'lesson' => $lesson]) }}"
+                                                        class="flex-shrink-0 btn btn-sm btn-primary px-3 ">Read More</a>
+                                                    {{-- <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
                                                 style="border-radius: 0 30px 30px 0;">Join Now</a> --}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="text-center p-4 pb-0">
-                                            {{-- <h3 class="mb-0">{{ $course->price() }}</h3> --}}
-                                            {{-- <div class="mb-3">
+                                            <div class="text-center p-4 pb-0">
+                                                {{-- <h3 class="mb-0">{{ $course->price() }}</h3> --}}
+                                                {{-- <div class="mb-3">
                                                 <small class="fa fa-star text-primary"></small>
                                                 <small class="fa fa-star text-primary"></small>
                                                 <small class="fa fa-star text-primary"></small>
@@ -133,9 +129,9 @@
                                                 <small class="fa fa-star text-primary"></small>
 
                                             </div> --}}
-                                            <h5 class="mb-4">{{ $lesson->title }}</h5>
-                                        </div>
-                                        {{-- <div class="d-flex border-top">
+                                                <h5 class="mb-4">{{ $lesson->title }}</h5>
+                                            </div>
+                                            {{-- <div class="d-flex border-top">
                                         <small class="flex-fill text-center border-end py-2"><i
                                                 class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
                                         <small class="flex-fill text-center border-end py-2"><i
@@ -144,8 +140,8 @@
                                                 class="fa fa-user text-primary me-2"></i>30
                                             Students</small>
                                     </div> --}}
+                                        </div>
                                     </div>
-                                </div>
                                 @endif
                             @endforeach
                         @endif
@@ -155,32 +151,33 @@
         </div>
         {{-- rating  course  --}}
         @auth
-        @if ($completedLessonsCount == $totalLessonsCount)
-        <div class="row">
-            <div class="py-5">
-                <div class="container">
-                    <h3>You have completed this course. You can now rate this course:</h3>
-                    <div class="mb-3">
-                        <form action="{{ route('ratings.create') }}" method="POST" class="form-group col-5">
-                            @csrf
-                            <input type="hidden" name="course_id" value="{{ $course->id }}">
-                            <label for="rate">Rate this course:</label>
-                            <select name="rate" id="rate" class="form-control ">
-                                <option value="1">1 Star</option>
-                                <option value="2">2 Stars</option>
-                                <option value="3">3 Stars</option>
-                                <option value="4">4 Stars</option>
-                                <option value="5">5 Stars</option>
-                            </select>
-                            <label for="content" class="col-form-label">Leave a review (optional):</label>
-                            <input type="text" placeholder="write  your opinon" name="content" id="content" rows="4" class="form-control form-text rounded-lg" />
-                            <button type="submit" class="btn btn-primary m-2 rounded-lg">Submit Rating</button>
-                        </form>
+            @if ($completedLessonsCount == $totalLessonsCount)
+                <div class="row">
+                    <div class="py-5">
+                        <div class="container">
+                            <h3>You have completed this course. You can now rate this course:</h3>
+                            <div class="mb-3">
+                                <form action="{{ route('ratings.create') }}" method="POST" class="form-group col-5">
+                                    @csrf
+                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                    <label for="rate">Rate this course:</label>
+                                    <select name="rate" id="rate" class="form-control ">
+                                        <option value="1">1 Star</option>
+                                        <option value="2">2 Stars</option>
+                                        <option value="3">3 Stars</option>
+                                        <option value="4">4 Stars</option>
+                                        <option value="5">5 Stars</option>
+                                    </select>
+                                    <label for="content" class="col-form-label">Leave a review (optional):</label>
+                                    <input type="text" placeholder="write  your opinon" name="content" id="content"
+                                        rows="4" class="form-control form-text rounded-lg" />
+                                    <button type="submit" class="btn btn-primary m-2 rounded-lg">Submit Rating</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        @endif
+            @endif
         @endauth
 
 
@@ -200,7 +197,7 @@
                                         <div class="position-relative mb-4">
                                             @if ($lesson->image)
                                                 <img class="img-fluid z-10" src="{{ asset($lesson->image) }}"
-                                                    alt="{{ $lesson->title }}" style="height: 13rem;width: 158rem;"/>
+                                                    alt="{{ $lesson->title }}" style="height: 13rem;width: 158rem;" />
                                             @endif
                                             <div
                                                 class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4 py-2 z-50">
